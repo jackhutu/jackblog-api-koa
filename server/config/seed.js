@@ -13,7 +13,6 @@ const	Tag = mongoose.model('Tag');
 //初始化标签,文章,用户
 function initData() {
 	return function *(next) {
-		if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'){
 			const userCount = yield User.count();
 			if(userCount === 0){
 				yield User.remove();
@@ -50,7 +49,7 @@ function initData() {
 					const languageCat = yield TagCategory.create({
 								name:'language',
 								desc:'按编程语言分类'
-							}).exec();
+							});
 					yield Tag.create({
 									name:'nodejs',
 									cid:languageCat._id,
@@ -111,6 +110,5 @@ function initData() {
 				}
 			}
 			yield next;
-		}
 	}
 	module.exports = initData
