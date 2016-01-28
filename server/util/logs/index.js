@@ -22,7 +22,8 @@ const logger = bunyan.createLogger({
 		{
 			level: 'debug',
 			stream: process.stderr
-		},{
+		}
+		,{
 			type: 'rotating-file',
 			level: 'error',
 			path: path.join(config.root,'logs/' + config.env + '-' +'error.log'),

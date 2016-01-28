@@ -12,8 +12,7 @@ exports.createUser = function (role,nickname,status) {
 			password:'test',
 			role: role || 'admin',
 			status: status || 1
-		})
-		//
+		});
 	};
 }
 
@@ -31,18 +30,5 @@ exports.getToken = function (agent, email) {
 		  should.exist(res.body.token);
 		  resolve(res.body.token);
 		});
-	    // var req = new XMLHttpRequest();
-	    // req.open('GET', URL, true);
-	    // req.onload = function () {
-	    //     if (req.status === 200) {
-	    //         resolve(req.responseText);
-	    //     } else {
-	    //         reject(new Error(req.statusText));
-	    //     }
-	    // };
-	    // req.onerror = function () {
-	    //     reject(new Error(req.statusText));
-	    // };
-	    // req.send();
 	});
 }

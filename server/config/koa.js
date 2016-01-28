@@ -25,7 +25,7 @@ module.exports = function(app) {
   app.keys = [config.session.secrets];
   app.use(session({
     key: "jackblog.sid",
-    store: new MongoStore({ url: config.mongo.uri }),
+    store: new MongoStore(config.mongo),
     cookie: config.session.cookie
   }));
   app.use(passport.initialize());

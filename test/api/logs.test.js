@@ -29,8 +29,8 @@ describe('test/api/logs.test.js',function () {
 	}));
 
 	after(co.wrap(function *() {
-		yield User.findByIdAndRemove(mockUserId);
-		yield Logs.remove();
+		yield User.findByIdAndRemove(mockUserId).exec();
+		yield Logs.remove().exec();
 	}));
 
 	describe('get /logs/getLogsList',function () {
