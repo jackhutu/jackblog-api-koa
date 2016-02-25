@@ -81,7 +81,7 @@ prefix 想要查询的资源前缀缺省值为空字符串,limit 限制条数缺
 marker 上一次列举返回的位置标记，作为本次列举的起点信息。缺省值为空字符串
  */
 exports.list = function(prefix, marker, limit){
-  return this.allList(bucket, prefix, marker, limit).spread(function(result,response){
+  return this.allList(bucket, prefix, marker, limit).then(function(result){
     return result;
   })
 };

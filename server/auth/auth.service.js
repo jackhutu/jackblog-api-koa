@@ -61,7 +61,7 @@ function hasRole(roleRequired) {
  * 生成token
  */
 function signToken(id) {
-  return jwt.sign({ _id: id }, config.session.secrets, { expiresIn: '7d' });
+  return jwt.sign({ _id: id }, config.session.secrets, { expiresIn: '1y' });
 }
 
 /**
@@ -80,16 +80,6 @@ function snsPassport() {
         yield next;
       }
     ])
-    // .use(authToken(false))
-    // .use(function( req, res, next) {
-    //   req.session.passport = {
-    //     redirectUrl: req.query.redirectUrl || '/'
-    //   }
-    //   if(req.user){
-    //     req.session.passport.userId = req.user._id;
-    //   }
-    //   next();
-    // });
 }
 
 exports.isAuthenticated = isAuthenticated;

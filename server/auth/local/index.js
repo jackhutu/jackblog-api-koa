@@ -20,7 +20,7 @@ function checkCaptcha() {
       }
     }
     if(error_msg){
-      this.status = 400;
+      this.status = 422;
       return this.body = {error_msg:error_msg}
     }
     yield next;
