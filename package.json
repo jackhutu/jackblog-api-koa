@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/jackhutu/jackblog-api-koa#readme",
   "dependencies": {
-    "bluebird": "^3.1.1",
+    "bluebird": "^3.3.3",
     "bunyan": "^1.5.1",
     "ccap": "^0.6.4",
     "co": "^4.6.0",
@@ -50,8 +50,8 @@
     "passport-local": "^1.0.0",
     "passport-qq": "0.0.3",
     "passport-weibo": "^0.1.2",
-    "qiniu": "^6.1.9",
-    "pm2": "^0.15.7"
+    "pm2": "^0.15.7",
+    "qiniu": "^6.1.9"
   },
   "devDependencies": {
     "del": "^2.2.0",
