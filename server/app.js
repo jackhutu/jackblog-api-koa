@@ -21,7 +21,7 @@ fs.readdirSync(modelsPath).forEach(function (file) {
 // 初始化数据
 if(config.seedDB && config.env === 'development') { 
 	const initData = require('./config/seed'); 
-	app.use(initData());
+	initData();
 }
 
 //log记录

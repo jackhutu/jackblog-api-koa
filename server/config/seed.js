@@ -1,5 +1,8 @@
 /**
  * 初始化数据
+ * 管理员用户
+ * email: admin@admin.com
+ * password: admin
  */
 'use strict';
 
@@ -8,13 +11,14 @@ const	User = mongoose.model('User');
 const	Article = mongoose.model('Article');
 const	TagCategory = mongoose.model('TagCategory');
 const	Tag = mongoose.model('Tag');
+const co = require('co');
+const logger = require('../util/logs').logger;
 
 //初始化标签,文章,用户
-function initData() {
-	return function *(next) {
+module.exports = function () {
+	co(function* () {
 		const userCount = yield User.count();
 		if(userCount === 0){
-			yield User.remove();
 			yield User.create({
 	 			nickname:'admin',
 	 			email:'admin@admin.com',
@@ -43,7 +47,6 @@ function initData() {
 		}
 		const tagCount = yield TagCategory.count();
 			if(tagCount === 0){
-				yield TagCategory.remove();
 				yield Tag.remove();
 				const languageCat = yield TagCategory.create({
 							name:'language',
@@ -107,8 +110,7 @@ function initData() {
 					});
 				});
 			}
-		yield next;
-	}
+	}).catch(function (err) {
+		logger.debug('Init data error');
+  });
 }
-
-module.exports = initData

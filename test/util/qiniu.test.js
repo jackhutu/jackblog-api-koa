@@ -3,7 +3,6 @@
 var should = require("should");
 var qiniuHelper = require('../../server/util/qiniu');
 var sinon = require('sinon');
-var Promise = require('bluebird');
 
 describe('test/util/qiniu.js',function () {
 	var mockKey = 'PwzqKey';
@@ -15,9 +14,9 @@ describe('test/util/qiniu.js',function () {
 		var stubFetch;
 		beforeEach(function () {
 			stubFetch = sinon.stub(qiniuHelper,'fetchFile');
-			stubFetch.withArgs(mockUrl,mockBucket,mockKey).returns(Promise.resolve([
-					{key:'/blog/article/test.png'},{status:200}
-				]));
+			stubFetch.withArgs(mockUrl,mockBucket,mockKey).returns(
+				Promise.resolve({key:'/blog/article/test.png'})
+			);
 			//stubFetch.withArgs('errUrl',mockBucket,'errKey').returns(Promise.reject());
 		});
 
@@ -39,9 +38,7 @@ describe('test/util/qiniu.js',function () {
 		var uploadStub;
 		beforeEach(function () {
 			uploadStub = sinon.stub(qiniuHelper,'uploadFile');
-			uploadStub.returns(Promise.resolve([
-					{key:'/blog/article/test.png'},{status:200}
-				]));
+			uploadStub.returns(Promise.resolve({key:'/blog/article/test.png'}));
 		});
 
 		afterEach(function () {
@@ -61,9 +58,7 @@ describe('test/util/qiniu.js',function () {
 		var moveStub;
 		beforeEach(function () {
 			moveStub = sinon.stub(qiniuHelper,'moveFile');
-			moveStub.returns(Promise.resolve([
-					{key:'/blog/article/test.png'},{status:200}
-				]));
+			moveStub.returns(Promise.resolve({key:'/blog/article/test.png'}));
 		});
 
 		afterEach(function () {
@@ -83,9 +78,7 @@ describe('test/util/qiniu.js',function () {
 		var copyStub;
 		beforeEach(function () {
 			copyStub = sinon.stub(qiniuHelper,'copyFile');
-			copyStub.returns(Promise.resolve([
-					{key:'/blog/article/test.png'},{status:200}
-				]));
+			copyStub.returns(Promise.resolve({key:'/blog/article/test.png'}));
 		});
 
 		afterEach(function () {
@@ -104,9 +97,7 @@ describe('test/util/qiniu.js',function () {
 		var removeStub;
 		beforeEach(function () {
 			removeStub = sinon.stub(qiniuHelper,'removeFile');
-			removeStub.returns(Promise.resolve([
-					{key:'/blog/article/test.png'},{status:200}
-				]));
+			removeStub.returns(Promise.resolve({key:'/blog/article/test.png'}));
 		});
 
 		afterEach(function () {
@@ -126,9 +117,7 @@ describe('test/util/qiniu.js',function () {
 		var listStub;
 		beforeEach(function () {
 			listStub = sinon.stub(qiniuHelper,'allList');
-			listStub.returns(Promise.resolve([
-					{items:[{key:'/blog/article/test.png'}]},{status:200}
-				]));
+			listStub.returns(Promise.resolve({items:[{key:'/blog/article/test.png'}]}));
 		});
 
 		afterEach(function () {
