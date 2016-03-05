@@ -269,10 +269,14 @@ exports.getIndexImage = function *() {
 	if(!config.indexImages || config.indexImages.length < 1){
 		this.status = 200;
 		this.body = {success:true,img:config.defaultIndexImage};
-		const result = yield qiniuHelper.list('blog/index','',10)
-		config.indexImages = result.items.map(function (item) {
-			return config.qiniu.domain + item.key + '-600x1500q80';
-		})
+		try{
+			const result = yield qiniuHelper.list('blog/index','',10)
+			config.indexImages = result.items.map(function (item) {
+				return config.qiniu.domain + item.key + '-600x1500q80';
+			})
+		}catch(err){
+			config.indexImages = []
+		}
 		return;
 	}else{
 		const images = config.indexImages;
