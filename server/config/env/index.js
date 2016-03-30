@@ -15,6 +15,10 @@ var all = {
       }
     }
   },
+  redis: {
+    host: '127.0.0.1',
+    port: 6379
+  },
   seedDB: false,
   session:{
     secrets: 'jackblog-secret',
@@ -27,7 +31,7 @@ var all = {
     bucket:"bucket"           //七牛空间名称  
   },
   //默认首页图片.
-  defaultIndexImage:"http://upload.jackhu.top/blog/index/8x7hVJvpE3Z6ruwgtd2G.jpg",
+  defaultIndexImage:"http://upload.jackhu.top/blog/index/default.jpg-600x1500q80",
   github:{
     clientID:"github",
     clientSecret:"clientSecret",

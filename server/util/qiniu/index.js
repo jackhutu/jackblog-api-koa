@@ -1,10 +1,10 @@
 'use strict';
 
-var _ = require('lodash');
-var config = require('../../config/env');
-var mongoose = require('mongoose');
-var Promise = require("bluebird");
-var qiniu = require('qiniu');
+const _ = require('lodash');
+const config = require('../../config/env');
+const mongoose = require('mongoose');
+const Promise = require("bluebird");
+const qiniu = require('qiniu');
 
 qiniu.conf.ACCESS_KEY = config.qiniu.app_key;
 qiniu.conf.SECRET_KEY = config.qiniu.app_secret;

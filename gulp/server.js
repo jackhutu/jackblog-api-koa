@@ -14,6 +14,9 @@ gulp.task('nodemon',function () {
 	  watch: [
 	    path.join(config.paths.server,'/')
 	  ],
+    "execMap": {
+      "js": "node --harmony"
+    },
 	  env: { 'NODE_ENV': 'development','DEBUG': pkg.name +':*' }
 	})
 });

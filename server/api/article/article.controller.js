@@ -11,6 +11,7 @@ const URL = require('url');
 const MarkdownIt = require('markdown-it');
 const config = require('../../config/env');
 const tools = require('../../util/tools');
+const redis = require('../../util/redis');
 
 //添加博客
 exports.addArticle = function *() {
@@ -265,21 +266,22 @@ exports.getPrenext = function *(next) {
 }
 //获取首页图片
 exports.getIndexImage = function *() {
-	//直接从七牛获取会很慢,改为从配置数组中获取.
-	if(!config.indexImages || config.indexImages.length < 1){
+	//从redis中获取
+	const imagesCount = yield redis.llen('indexImages')
+	if(!imagesCount || imagesCount < 1){
 		this.status = 200;
 		this.body = {success:true,img:config.defaultIndexImage};
 		try{
-			const result = yield qiniuHelper.list('blog/index','',10)
-			config.indexImages = result.items.map(function (item) {
-				return config.qiniu.domain + item.key + '-600x1500q80';
+			const result = yield qiniuHelper.list('blog/index','',30)
+			result.items.map(function (item) {
+				redis.lpush('indexImages',config.qiniu.domain + item.key + '-600x1500q80');
 			})
 		}catch(err){
-			config.indexImages = []
+			redis.del('indexImages')
 		}
 		return;
 	}else{
-		const images = config.indexImages;
+		const images = yield redis.lrange('indexImages', 0, 30)
 		const index = _.random(images.length - 1);
 		this.status = 200;
 		return this.body = {success:true,img:images[index]};

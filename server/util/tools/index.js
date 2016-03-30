@@ -1,5 +1,6 @@
 "use strict";
-var _ = require('lodash');
+
+const _ = require('lodash');
 //生成随机字符串
 exports.randomString = function (len) {
 	　　len = len || 12;

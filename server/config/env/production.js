@@ -11,6 +11,9 @@ module.exports = {
       pass:'pass'           //生产环境密码
     }
   },
+  redis: {
+    db: 1
+  },
   session:{
   	cookie:  {domain:'.jackhu.top',maxAge: 60000*5}
   }

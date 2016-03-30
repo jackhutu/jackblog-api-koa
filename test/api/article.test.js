@@ -7,9 +7,10 @@ const mongoose = require('mongoose');
 const	User = mongoose.model('User');
 const	Article = mongoose.model('Article');
 const	Logs = mongoose.model('Logs');
-const qiniuHelper = require('../../server/util/qiniu');
 const sinon = require('sinon');
 const co = require("co");
+const qiniuHelper = require('../../server/util/qiniu');
+const redis = require('../../server/util/redis');
 const authHelper = require('../middlewares/authHelper');
 
 describe('test/api/article.test.js',function () {
@@ -27,6 +28,7 @@ describe('test/api/article.test.js',function () {
 		yield User.findByIdAndRemove(mockAdminId);
 		yield Article.remove();
 		yield Logs.remove();
+		yield redis.del('indexImages')
 	}));
 
 	describe('post /article/addArticle',function () {
@@ -332,8 +334,6 @@ describe('test/api/article.test.js',function () {
 		});
 	});
 
-
-
 	describe('get /article/getIndexImage',function () {
 		var stubQiniu;
 		beforeEach(function () {
@@ -343,21 +343,28 @@ describe('test/api/article.test.js',function () {
 			qiniuHelper.list.restore();
 		});
 
-		it('should return index image',function (done) {
-			stubQiniu.returns(Promise.resolve({items:[{
-				key:'aaaabbbbdddddcccc'
-			}]}));
+		it('should return default index image',function (done) {
+			stubQiniu.returns(Promise.resolve({items:[1, 2, 3, 4, 5].map(i=>({key:i}))}));
 			request.get('/article/getIndexImage')
 			.expect(200)
 			.end(function (err,res) {
 				if (err) return done(err);
 				res.body.success.should.be.true();
-				res.body.img.should.startWith('http://upload.jackhu.top');
+				res.body.img.should.startWith('http://upload.jackhu.top/blog/index/default.jpg');
 				stubQiniu.calledOnce.should.be.true();
 				done();
 			});
 		});
-		
+		it('should return redis image',function (done) {
+			request.get('/article/getIndexImage')
+			.expect(200)
+			.end(function (err,res) {
+				if (err) return done(err);
+				res.body.success.should.be.true();
+				res.body.img.should.be.String;
+				done();
+			});
+		});
 	});
 
 	describe('get /article/:id/getPrenext', function() {

@@ -2,7 +2,7 @@
 
 const path = require("path");
 const session = require("koa-generic-session");
-const MongoStore = require("koa-generic-session-mongo");
+const RedisStore = require('koa-redis');
 const responseTime = require("koa-response-time");
 const logger = require("koa-logger");
 const json = require('koa-json')
@@ -25,7 +25,7 @@ module.exports = function(app) {
   app.keys = [config.session.secrets];
   app.use(session({
     key: "jackblog.sid",
-    store: new MongoStore(config.mongo),
+    store: new RedisStore(config.redis),
     cookie: config.session.cookie
   }));
   app.use(passport.initialize());

@@ -10,21 +10,17 @@
 [coveralls-url]: https://coveralls.io/github/jackhutu/jackblog-api-koa?branch=master
 
 ## 简介
-Jackblog 是使用 Node.js + MongoDB + 其它客户端框架, 开发的个人博客系统,前后端分离,仿简书模板.此为服务端koa版.  
-服务端有:  
-[express版](https://github.com/jackhutu/jackblog-api-express)  
-[koa版](https://github.com/jackhutu/jackblog-api-koa)         
-客户端有:  
-[angular1.x版](https://github.com/jackhutu/jackblog-angular1)   
-[react redux 版](https://github.com/jackhutu/jackblog-react-redux)  
-[vue 版](https://github.com/jackhutu/jackblog-vue)    
-移动端有:   
-[react native 版](https://github.com/jackhutu/jackblog-react-native-redux)
+Jackblog 是使用 Node.js + MongoDB + 其它客户端框架开发的个人博客系统,前后端分离,仿简书模板.    
+服务端有: [express 版](https://github.com/jackhutu/jackblog-api-express) , [koa 版](https://github.com/jackhutu/jackblog-api-koa)         
+客户端有: [angular1.x 版](https://github.com/jackhutu/jackblog-angular1) , [angular2.x 版](https://github.com/jackhutu/jackblog-angular2) , [react redux 版](https://github.com/jackhutu/jackblog-react-redux) , [vue 版](https://github.com/jackhutu/jackblog-vue)    
+移动端有: [react native 版](https://github.com/jackhutu/jackblog-react-native-redux)  
+##### 此为服务端koa版, 为客户端提供api. 
 
 ## 环境准备
 ```
 node.js 4.0+
 mognodb 3.0+
+redis 2.8+
 ```
 
 ## 配置
@@ -42,13 +38,10 @@ mognodb 3.0+
 
 ## 开发
 ```
+$ git clone git@github.com:jackhutu/jackblog-api-koa.git
+$ cd jackblog-api-koa
 $ npm install
 $ gulp serve
-```
-配合客户端测试的测试模式   
- 
-```
-$ gulp serve:test
 ```
 
 ## 线上布署
@@ -60,6 +53,11 @@ $ pm2 start process.json
 ## 测试
 ```
 $ gulp test
+```
+配合客户端测试的测试模式   
+ 
+```
+$ gulp serve:test
 ```
 
 ## License
