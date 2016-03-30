@@ -1,7 +1,9 @@
 # jackblog api koa版
 
-[![build status][travis-image]][travis-url]
-[![Coverage Status][coveralls-image]][coveralls-url]
+[![build status][travis-image]][travis-url] 
+[![Coverage Status][coveralls-image]][coveralls-url] 
+[![Dependency Status](https://david-dm.org/jackhutu/jackblog-api-koa.svg)](https://david-dm.org/jackhutu/jackblog-api-koa) 
+[![devDependency Status](https://david-dm.org/jackhutu/jackblog-api-koa/dev-status.svg)](https://david-dm.org/jackhutu/jackblog-api-koa#info=devDependencies)  
 
 [travis-image]: https://travis-ci.org/jackhutu/jackblog-api-koa.svg?branch=master
 [travis-url]: https://travis-ci.org/jackhutu/jackblog-api-koa
