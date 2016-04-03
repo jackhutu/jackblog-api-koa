@@ -25,7 +25,11 @@ module.exports = function(app) {
   app.keys = [config.session.secrets];
   app.use(session({
     key: "jackblog.sid",
-    store: new RedisStore(config.redis),
+    store: new RedisStore({
+        host:config.redis.host,
+        port:config.redis.port,
+        auth_pass:config.redis.password || ''
+    }),
     cookie: config.session.cookie
   }));
   app.use(passport.initialize());

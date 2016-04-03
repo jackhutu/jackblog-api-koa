@@ -1,6 +1,6 @@
 {
   "name": "jackblog-api-koa",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "jackblog API koa版",
   "main": "server/app.js",
   "scripts": {
@@ -44,18 +44,17 @@
     "koa-redis": "^2.0.1",
     "koa-response-time": "^1.0.2",
     "koa-router": "^5.3.0",
-    "lodash": "^4.6.1",
-    "markdown-it": "^6.0.0",
+    "lodash": "^4.7.0",
+    "markdown-it": "^6.0.1",
     "mongoose": "^4.4.10",
     "passport-github": "^1.1.0",
     "passport-local": "^1.0.0",
     "passport-qq": "0.0.3",
     "passport-weibo": "^0.1.2",
-    "pm2": "^1.0.2",
+    "pm2": "^1.1.1",
     "qiniu": "^6.1.9"
   },
   "devDependencies": {
-    "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-coveralls": "^0.1.4",
     "gulp-env": "^0.4.0",
@@ -64,10 +63,7 @@
     "gulp-nodemon": "^2.0.6",
     "gulp-sequence": "^0.4.5",
     "gulp-util": "^3.0.7",
-    "mocha": "^2.4.5",
-    "nock": "^7.7.2",
     "should": "^8.3.0",
-    "should-promised": "^0.3.1",
     "sinon": "^1.17.3",
     "supertest": "^1.2.0"
   }
