@@ -3,14 +3,15 @@
 const mongoose = require('mongoose');
 const router = require("koa-router")();
 const passport = require('koa-passport');
-const auth = require('../auth.service');
 const User = mongoose.model('User');
+const isMobile = require('ismobilejs');
+const auth = require('../auth.service');
 
 function checkCaptcha() {
   return function *(next) {
     //测试环境不用验证码
     let error_msg;
-    if(process.env.NODE_ENV !== 'test'){
+    if(process.env.NODE_ENV !== 'test' && !isMobile(this.req.headers['user-agent']).any){
       if(!this.request.body.captcha){
         error_msg = "验证码不能为空.";
       }else if(this.session.captcha !== this.request.body.captcha.toUpperCase()){
