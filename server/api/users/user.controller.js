@@ -81,10 +81,6 @@ exports.addUser = function *() {
 		this.status = 200;
 		this.body = {success:true,user_id:user._id};
 	}catch(err){
-		if(err.errors.nickname){
-			this.status = 500;
-			return this.body = {error_msg:err.errors.nickname.message};
-		}
 		this.throw(err);
 	}
 }
@@ -154,10 +150,6 @@ exports.updateUser = function *() {
 		this.status = 200;
 		this.body = {success:true,user_id:newUser._id};
 	}catch(err){
-		if(err.errors.nickname){
-			this.status = 500;
-			return this.body = {error_msg:err.errors.nickname.message};
-		}
 		this.throw(err);
 	}
 }

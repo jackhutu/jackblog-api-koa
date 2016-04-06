@@ -7,8 +7,9 @@ const fs = require('fs');
 const app = require('koa')();
 const mongoose = require('mongoose');
 const config = require('./config/env');
-const onerror = require('koa-onerror'); 
 const loggerMiddle = require('./util/logs');
+const errorHandleMiddle = require('./util/error');
+
 // 连接数据库.
 mongoose.connect(config.mongo.uri, config.mongo.options);
 const modelsPath = path.join(__dirname, 'model');
@@ -27,12 +28,16 @@ if(config.seedDB && config.env === 'development') {
 //log记录
 //router use : this.logger.error('msg')
 app.use(loggerMiddle());
-onerror(app);
+//错误处理中间件
+app.use(errorHandleMiddle());
 require('./config/koa')(app);
 require('./routes')(app);
-// app.on('error', function(err, ctx){
-//   console.error('server error', err);
-// });
+//错误监听
+app.on('error',(err,ctx)=>{
+	if (process.env.NODE_ENV != 'test') {
+		console.error('error', err);
+	}
+})
 // Start server
 app.listen(config.port, function () {
   console.log('Koa server listening on %d, in %s mode', config.port, app.env);
