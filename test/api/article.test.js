@@ -350,7 +350,7 @@ describe('test/api/article.test.js',function () {
 			.end(function (err,res) {
 				if (err) return done(err);
 				res.body.success.should.be.true();
-				res.body.img.should.startWith('http://upload.jackhu.top/blog/index/default.jpg');
+				res.body.img.should.startWith('http://upload.jackhu.top');
 				stubQiniu.calledOnce.should.be.true();
 				done();
 			});

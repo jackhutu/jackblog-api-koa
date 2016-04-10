@@ -3,9 +3,11 @@
 // 开发环境配置
 // ==================================
 module.exports = {
+  //开发环境mongodb配置
   mongo: {
     uri: 'mongodb://localhost/jackblog-dev'
   },
+  //开发环境redis配置
   redis: {
     db: 0
   },

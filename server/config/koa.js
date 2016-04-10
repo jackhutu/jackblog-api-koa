@@ -26,9 +26,9 @@ module.exports = function(app) {
   app.use(session({
     key: "jackblog.sid",
     store: new RedisStore({
-        host:config.redis.host,
-        port:config.redis.port,
-        auth_pass:config.redis.password || ''
+      host:config.redis.host,
+      port:config.redis.port,
+      auth_pass:config.redis.password || ''
     }),
     cookie: config.session.cookie
   }));
