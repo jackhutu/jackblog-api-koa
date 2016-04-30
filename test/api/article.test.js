@@ -9,9 +9,12 @@ const	Article = mongoose.model('Article');
 const	Logs = mongoose.model('Logs');
 const sinon = require('sinon');
 const co = require("co");
-const qiniuHelper = require('../../server/util/qiniu');
 const redis = require('../../server/util/redis');
 const authHelper = require('../middlewares/authHelper');
+let config = require('../../server/config/env');
+config.qiniu.app_key = 'test';
+config.qiniu.app_secret = 'test';
+const qiniuHelper = require('../../server/util/qiniu');
 
 describe('test/api/article.test.js',function () {
 	//测试需要一篇文章

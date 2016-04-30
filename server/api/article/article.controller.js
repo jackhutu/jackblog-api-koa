@@ -272,10 +272,12 @@ exports.getIndexImage = function *() {
 		this.status = 200;
 		this.body = {success:true,img:config.defaultIndexImage};
 		try{
-			const result = yield qiniuHelper.list('blog/index','',30)
-			result.items.map(function (item) {
-				redis.lpush('indexImages',config.qiniu.domain + item.key + '-600x1500q80');
-			})
+			if(config.qiniu.app_key !== '' && config.qiniu.app_secret !== ''){
+				const result = yield qiniuHelper.list('blog/index','',30)
+				result.items.map(function (item) {
+					redis.lpush('indexImages',config.qiniu.domain + item.key + '-600x1500q80');
+				})
+			}
 		}catch(err){
 			redis.del('indexImages')
 		}

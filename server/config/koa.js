@@ -14,6 +14,7 @@ const config = require('./env');
 
 module.exports = function(app) {
   if(app.env === 'development'){
+    app.use(responseTime());
     app.use(logger());
   }
   app.use(cors({
@@ -34,5 +35,4 @@ module.exports = function(app) {
   }));
   app.use(passport.initialize());
   app.use(compress());
-  app.use(responseTime());
 };
