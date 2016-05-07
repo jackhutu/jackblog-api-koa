@@ -7,7 +7,7 @@ env:
 
 node_js:
   - '4'
-  - stable
+  - '5'
 
 addons:
   apt:
