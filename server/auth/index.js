@@ -15,7 +15,7 @@ require('./qq/passport').setup(User, config);
 
 router.use('/local',require('./local').routes());
 router.use('/github',require('./github').routes());
-// router.use('/weibo',require('./weibo').routes());
-// router.use('/qq',require('./qq').routes());
+router.use('/qq',require('./qq').routes());
+router.use('/weibo',require('./weibo').routes());
 
 module.exports = router;
