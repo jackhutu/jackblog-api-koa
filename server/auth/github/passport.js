@@ -30,7 +30,7 @@ exports.setup = function (User,config) {
           status:1
         }
         const checkUserName = yield User.findOne({nickname:newUser.nickname});
-        if(checkUser){
+        if(checkUserName){
           newUser.nickname = tools.randomString();
         }
         const user = yield new User(newUser).save();
