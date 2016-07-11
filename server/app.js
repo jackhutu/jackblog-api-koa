@@ -18,6 +18,9 @@ fs.readdirSync(modelsPath).forEach(function (file) {
 		require(modelsPath + '/' + file);
 	}
 });
+//mongoose promise 风格
+mongoose.Promise = require('bluebird');
+//mongoose.Promise = global.Promise;
 
 // 初始化数据
 if(config.seedDB && config.env === 'development') { 

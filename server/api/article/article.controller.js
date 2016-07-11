@@ -267,23 +267,23 @@ exports.getPrenext = function *(next) {
 //获取首页图片
 exports.getIndexImage = function *() {
 	//从redis中获取
-	const imagesCount = yield redis.llen('indexImages')
+	const imagesCount = yield redis.llen('indexImages');
 	if(!imagesCount || imagesCount < 1){
 		this.status = 200;
 		this.body = {success:true,img:config.defaultIndexImage};
 		try{
 			if(config.qiniu.app_key !== '' && config.qiniu.app_secret !== ''){
-				const result = yield qiniuHelper.list('blog/index','',30)
+				const result = yield qiniuHelper.list('blog/index','',30);
 				result.items.map(function (item) {
 					redis.lpush('indexImages',config.qiniu.domain + item.key + '-600x1500q80');
 				})
 			}
 		}catch(err){
-			redis.del('indexImages')
+			redis.del('indexImages');
 		}
 		return;
 	}else{
-		const images = yield redis.lrange('indexImages', 0, 30)
+		const images = yield redis.lrange('indexImages', 0, 30);
 		const index = _.random(images.length - 1);
 		this.status = 200;
 		return this.body = {success:true,img:images[index]};
