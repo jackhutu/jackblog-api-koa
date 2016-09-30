@@ -1,19 +1,19 @@
 {
 	"apps" : [
-        {
-            "name"          : "jackblog-api-koa",
-            "script"        : "./server/app.js",
-            "log_date_format"  : "YYYY-MM-DD HH:mm Z",
-            "out_file"      : "./logs/pm2-out.log",
-            "error_file"    : "./logs/pm2-err.log",
-            "pid_file"      : "./logs/jackblog-api-koa.pid",
-            "ignoreWatch"   : ["[\\/\\\\]\\./", "node_modules"],
-            "watch"         : "false",
-            "node_args"     : "--harmony",
-            "exec_mode"     : "fork_mode", //cluster_mode
-            "env": {
-              "NODE_ENV"    : "production"
-            }
-        }
-    ]
+    {
+      "name"            : "jackblog-api-koa",
+      "script"          : "./server/app.js",
+      "log_date_format" : "YYYY-MM-DD HH:mm Z",
+      "out_file"        : "./logs/pm2-out.log",
+      "error_file"      : "./logs/pm2-err.log",
+      "pid_file"        : "./logs/jackblog-api-koa.pid",
+      "ignoreWatch"     : ["[\\/\\\\]\\./", "node_modules"],
+      "watch"           : "false",
+      "node_args"       : "--harmony",
+      "exec_mode"       : "fork_mode", //cluster_mode
+      "env": {
+        "NODE_ENV"      : "production"
+      }
+    }
+  ]
 }
