@@ -13,7 +13,7 @@ const User = mongoose.model('User');
 function authToken() {
   return compose([
     function *(next) {
-      if(this.query && this.query.hasOwnProperty('access_token')){
+      if(this.query && this.query.access_token){
         this.headers.authorization = 'Bearer ' + this.query.access_token;
       }
       yield next;
