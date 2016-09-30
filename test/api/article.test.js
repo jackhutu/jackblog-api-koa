@@ -39,7 +39,7 @@ describe('test/api/article.test.js',function () {
 			request.post('/article/addArticle')
 			.set('Authorization','Bearer ' + token)
 			.send({
-				content:'测试文章内容![enter image description here](http://upload.jackhu.top/test/111.png "enter image title here")',
+				content:'测试文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
 				status:1
 			})
 			.expect(422,done);
@@ -63,7 +63,7 @@ describe('test/api/article.test.js',function () {
 			.set('Authorization','Bearer ' + token)
 			.send({
 				title:'测试文章标题' + new Date().getTime(),
-				content:'测试文章内容![enter image description here](http://upload.jackhu.top/test/111.png "enter image title here")',
+				content:'测试文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
 				status:1,
 				tags:['55e127401c2dbb2c4be93f6b']
 			})
@@ -80,7 +80,7 @@ describe('test/api/article.test.js',function () {
 			.set('Authorization','Bearer ' + token)
 			.send({
 				title:'测试文章标题' + new Date().getTime(),
-				content:'测试文章内容![enter image description here](http://upload.jackhu.top/test/111.png "enter image title here")',
+				content:'测试文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
 				status:1,
 				tags:mockTagIds
 			})
@@ -101,7 +101,7 @@ describe('test/api/article.test.js',function () {
 			request.put('/article/' + mockArticleId + '/updateArticle')
 			.set('Authorization','Bearer ' + token)
 			.send({
-				content:'新的文章内容![enter image description here](http://upload.jackhu.top/test/111.png "enter image title here")',
+				content:'新的文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
 				status:1
 			})
 			.expect(422,done);
@@ -126,7 +126,7 @@ describe('test/api/article.test.js',function () {
 			.send({
 				_id:mockArticleId,
 				title:'更新的标题' + new Date().getTime(),
-				content:'更新的文章内容![enter image description here](http://upload.jackhu.top/test/111.png "enter image title here")',
+				content:'更新的文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
 				status:1,
 				isRePub:true,
 				tags:mockTagIds
@@ -193,7 +193,7 @@ describe('test/api/article.test.js',function () {
 		it('should resturn success',function (done) {
 			var stubQiniu = sinon.stub(qiniuHelper,'upload');
 			stubQiniu.returns(Promise.resolve({
-				url: "http://upload.jackhu.top/article/article/test.png"
+				url: "https://upload.jackhu.top/article/article/test.png"
 			}));
 			request.post('/article/uploadImage')
 			.set('Authorization','Bearer ' + token)
@@ -203,7 +203,7 @@ describe('test/api/article.test.js',function () {
 			.end(function (err,res) {
 				if(err) return done(err);
 				res.body.success.should.be.true();
-				res.body.img_url.should.be.equal("http://upload.jackhu.top/article/article/test.png");
+				res.body.img_url.should.be.equal("https://upload.jackhu.top/article/article/test.png");
 				stubQiniu.calledOnce.should.be.true();
 				stubQiniu.restore();
 				done();
@@ -217,19 +217,19 @@ describe('test/api/article.test.js',function () {
 		it('should resturn success',function (done) {
 			var stubQiniu = sinon.stub(qiniuHelper,'fetch');
 			stubQiniu.returns(Promise.resolve({
-				url: "http://upload.jackhu.top/article/article/test.png"
+				url: "https://upload.jackhu.top/article/article/test.png"
 			}));
 			request.post('/article/fetchImage')
 			.set('Authorization','Bearer ' + token)
 			.send({
-				url:'http://www.test.com/test.png'
+				url:'https://www.test.com/test.png'
 			})
 			.expect(200)
 			.expect('Content-Type', /json/)
 			.end(function (err,res) {
 				if(err) return done(err);
 				res.body.success.should.be.true();
-				res.body.img_url.should.be.equal("http://upload.jackhu.top/article/article/test.png");
+				res.body.img_url.should.be.equal("https://upload.jackhu.top/article/article/test.png");
 				stubQiniu.calledOnce.should.be.true();
 				stubQiniu.restore();
 				done();
@@ -353,7 +353,7 @@ describe('test/api/article.test.js',function () {
 			.end(function (err,res) {
 				if (err) return done(err);
 				res.body.success.should.be.true();
-				res.body.img.should.startWith('http://upload.jackhu.top');
+				res.body.img.should.startWith('https://upload.jackhu.top');
 				stubQiniu.calledOnce.should.be.true();
 				done();
 			});
@@ -375,7 +375,7 @@ describe('test/api/article.test.js',function () {
 		before(co.wrap(function *() {
 			const article = yield Article.create({
 															title:'测试文章标题' + new Date().getTime(),
-															content:'测试文章内容![enter image description here](http://upload.jackhu.top/test/111.png "enter image title here")',
+															content:'测试文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
 															status:1,
 															tags:mockTagIds
 														});
