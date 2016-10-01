@@ -12,7 +12,8 @@ module.exports = {
   },
   //生产环境redis配置
   redis: {
-    db: 1
+    db: 1,
+    dropBufferSupport: true
   },
   //生产环境cookie是否需要domain视具体情况而定.
   session:{
