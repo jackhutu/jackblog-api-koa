@@ -8,7 +8,7 @@ module.exports = {
   port: process.env.PORT || 8800,
   //生产环境mongodb配置
   mongo: {
-    uri: 'mongodb://+' MONGO_ADDR '+/jackblog'
+    uri: 'mongodb://' +  MONGO_ADDR + '/jackblog'
   },
   //生产环境redis配置
   redis: {
