@@ -166,7 +166,7 @@ UserSchema.methods = {
 	encryptPassword: function(password) {
 	  if (!password || !this.salt) return '';
 	  var salt = new Buffer(this.salt, 'base64');
-	  return crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha256').toString('base64');
+	  return crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha1').toString('base64');
 	}
 }
 
