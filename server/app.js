@@ -23,7 +23,7 @@ mongoose.Promise = require('bluebird');
 //mongoose.Promise = global.Promise;
 
 // 初始化数据
-if(config.seedDB && config.env === 'development') { 
+if(config.seedDB) { 
 	const initData = require('./config/seed'); 
 	initData();
 }

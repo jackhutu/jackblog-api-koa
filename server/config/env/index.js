@@ -22,7 +22,7 @@ var all = {
     password: process.env.REDIS_PASSWORD || ''
   },
   //是否初始化数据
-  seedDB: false,
+  seedDB: process.env.INITDATA || false,
   session:{
     secrets: 'jackblog-secret',
   },
