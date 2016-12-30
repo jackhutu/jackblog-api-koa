@@ -22,7 +22,7 @@ Jackblog 是使用 Node.js + MongoDB + Redis + 其它客户端框架开发的个
 
 ## 环境准备
 ```
-node.js 7.0+
+node.js 7.2+
 mognodb 3.0+
 redis 2.8+
 ```
@@ -46,7 +46,7 @@ redis 2.8+
 $ git clone git@github.com:jackhutu/jackblog-api-koa.git
 $ cd jackblog-api-koa
 $ npm install
-$ gulp serve
+$ npm run serve
 ```
 
 #### 使用docker容器部署所需的要环境变量  
@@ -80,7 +80,7 @@ $ npm test
 配合客户端测试的测试模式   
  
 ```
-$ gulp serve:test
+$ npm run serve:test
 ```
 
 ## License

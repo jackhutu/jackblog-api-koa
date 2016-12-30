@@ -4,7 +4,8 @@
   "description": "jackblog API koa版",
   "main": "server/app.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon ./bin/www",
+    "serve": "cross-env NODE_ENV=development nodemon ./bin/www",
+    "serve:test": "cross-env NODE_ENV=test nodemon ./bin/www",
     "pm2-start": "pm2 start --no-daemon process.json",
     "ava": "cross-env NODE_ENV=test ava test",
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text ava",
