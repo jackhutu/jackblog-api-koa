@@ -7,8 +7,9 @@ module.exports = {
     uri: 'mongodb://localhost/jackblog-test'
   },
   redis: {
-    db: 2
+    db: 2,
+    dropBufferSupport: true
   },
   port:    process.env.PORT || 8080,
-  seedDB: true
+  seedDB: false
 };

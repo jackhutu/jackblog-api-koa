@@ -80,7 +80,7 @@ var all = {
 
 var config = _.merge(all,require('./' + process.env.NODE_ENV + '.js') || {});
 //加载私有配置
-// if (fs.existsSync(path.join(__dirname, 'private/index.js'))) {
-//   config = _.merge(config, require(path.join(__dirname, 'private/index.js')) || {});  
-// }
+if (fs.existsSync(path.join(__dirname, 'private/index.js'))) {
+  config = _.merge(config, require(path.join(__dirname, 'private/index.js')) || {});  
+}
 module.exports = config;

@@ -1,467 +1,331 @@
-"use strict";
-
-const app = require('../../server/app');
-const request = require('supertest')(app.listen());
-const should = require("should"); 
-const mongoose = require('mongoose');
-const	User = mongoose.model('User');
-const	Article = mongoose.model('Article');
-const	Logs = mongoose.model('Logs');
-const sinon = require('sinon');
-const co = require("co");
+import { test, describe, before, after, beforeEach,afterEach } from 'ava-spec';
+import { koaApp } from '../helpers/app';
+import { createUser, getToken } from '../helpers/auth';
+import { UserSchema } from '../../server/model/user.model';
+import { LogsSchema } from '../../server/model/logs.model';
+import { ArticleSchema } from '../../server/model/article.model';
+import config from '../../server/config/env';
 const redis = require('../../server/util/redis');
-const authHelper = require('../middlewares/authHelper');
-let config = require('../../server/config/env');
+import sinon from 'sinon';
 config.qiniu.app_key = 'test';
 config.qiniu.app_secret = 'test';
 const qiniuHelper = require('../../server/util/qiniu');
 
-describe('test/api/article.test.js',function () {
-	//测试需要一篇文章
-	let token, mockArticleId,mockAdminId;
-	const mockTagId = '55e127401cfddd2c4be93f6b';
-	const mockTagIds = ['55e127401cfddd2c4be93f6b'];
-	before(co.wrap(function *() {
-	  const user = yield authHelper.createUser('admin');
-	  mockAdminId = user._id;
-	  token = yield authHelper.getToken(request,user.email);
-	}));
+let User, Logs, Article, token, mockArticleId, mockAdminId, mockTagId = '55e127401cfddd2c4be93f6b', mockTagIds = ['55e127401cfddd2c4be93f6b'];
+before(async t => {
+  const mongoose = require('../../server/connect');
+  mongoose.Promise = require('bluebird');
+  User = mongoose.model('User', UserSchema);
+  Logs = mongoose.model('Logs', LogsSchema);
+  Article = mongoose.model('Article', ArticleSchema);
+  const user = await createUser(User, 'admin');
+  mockAdminId = user._id;
+  token = await getToken(user.email);
+});
 
-	after(co.wrap(function *() {
-		yield User.findByIdAndRemove(mockAdminId);
-		yield Article.remove();
-		yield Logs.remove();
-		yield redis.del('indexImages')
-	}));
+after(async () => {
+  await User.findByIdAndRemove(mockAdminId);
+  await Article.remove();
+  await Logs.remove();
+  await redis.del('indexImages');
+});
 
-	describe('post /article/addArticle',function () {
-		it('should not title return error',function (done) {
-			request.post('/article/addArticle')
-			.set('Authorization','Bearer ' + token)
-			.send({
-				content:'测试文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
-				status:1
-			})
-			.expect(422,done);
-		});
+describe('test/api/article.test.js => post /article/addArticle', it => {
+  it.serial('should not title return error', async t => {
+    const res = await koaApp.post('/article/addArticle')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        content: '测试文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
+        status: 1
+      })
+    t.is(res.status, 422);
+  });
 
-		it('should not content return error',function (done) {
-			request.post('/article/addArticle')
-			.set('Authorization','Bearer ' + token)
-			.send({
-				title:'测试文章标题' + new Date().getTime(),
-				status:1
-			})
-			.expect(422,done);
-		});
+  it.serial('should not content return error', async t => {
+    const res = await koaApp.post('/article/addArticle')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        title: '测试文章标题' + new Date().getTime(),
+        status: 1
+      })
+    t.is(res.status, 422);
+  });
 
-		it('should throw error return 500',function (done) {
-			var stubArticle = sinon.stub(Article,'create');
-			stubArticle.returns(new TypeError('error message'));
+  it.serial('should throw error return 500', async t => {
+    let stubArticle = sinon.stub(Article, 'create').returns(Promise.reject(new TypeError('error message')));
 
-			request.post('/article/addArticle')
-			.set('Authorization','Bearer ' + token)
-			.send({
-				title:'测试文章标题' + new Date().getTime(),
-				content:'测试文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
-				status:1,
-				tags:['55e127401c2dbb2c4be93f6b']
-			})
-			.expect(500)
-			.end(function (err,res) {
-				if(err) return done(err);
-				stubArticle.restore();
-				done();
-			});
-		});
+    const res = await koaApp.post('/article/addArticle')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        title: '测试文章标题' + new Date().getTime(),
+        content: '测试文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
+        status: 1,
+        tags: ['55e127401c2dbb2c4be93f6b']
+      })
+    t.is(res.status, 500);
+    stubArticle.restore();
+  });
 
-		it('should create a new article',function (done) {
-			request.post('/article/addArticle')
-			.set('Authorization','Bearer ' + token)
-			.send({
-				title:'测试文章标题' + new Date().getTime(),
-				content:'测试文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
-				status:1,
-				tags:mockTagIds
-			})
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.end(function (err,res) {
-				if(err) return done(err);
-				mockArticleId = res.body.article_id;
-				res.body.success.should.be.true();
-				res.body.article_id.should.be.String;
-				done();
-			});
-		});
-	});
+  it.serial('should create a new article', async t => {
+    const res = await koaApp.post('/article/addArticle')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        title: '测试文章标题' + new Date().getTime(),
+        content: '测试文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
+        status: 1,
+        tags: mockTagIds
+      })
+    t.is(res.status, 200);
+    t.true(res.body.success);
+    mockArticleId = res.body.article_id;
+  });
 
-	describe('put /article/:id/updateArticle',function () {
-		it('should not title return error',function (done) {
-			request.put('/article/' + mockArticleId + '/updateArticle')
-			.set('Authorization','Bearer ' + token)
-			.send({
-				content:'新的文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
-				status:1
-			})
-			.expect(422,done);
+});
 
-		});
+describe('test/api/article.test.js => put /article/:id/updateArticle', it => {
+  it.serial('should not title return error', async t => {
+    const res = await koaApp.put('/article/' + mockArticleId + '/updateArticle')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        content: '新的文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
+        status: 1
+      })
+    t.is(res.status, 422);
+  });
 
-		it('should not content return error',function (done) {
-			request.put('/article/' + mockArticleId + '/updateArticle')
-			.set('Authorization','Bearer ' + token)
-			.send({
-				title:'新的标题' + new Date().getTime(),
-				status:1
-			})
-			.expect(422,done);
+  it.serial('should not content return error', async t => {
+    const res = await koaApp.put('/article/' + mockArticleId + '/updateArticle')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        title: '新的标题' + new Date().getTime(),
+        status: 1
+      })
+    t.is(res.status, 422);
+  });
 
-		});
+  it.serial('should return update a article', async t => {
+    const res = await koaApp.put('/article/' + mockArticleId + '/updateArticle')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        _id: mockArticleId,
+        title: '更新的标题' + new Date().getTime(),
+        content: '更新的文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
+        status: 1,
+        isRePub: true,
+        tags: mockTagIds
+      })
+    t.is(res.status, 200);
+    t.true(res.body.success);
+  });
+});
 
+describe('test/api/article.test.js => get /article/getArticleList', it => {
+  it.serial('should return blog list', async t => {
+    const res = await koaApp.get('/article/getArticleList')
+      .set('Authorization', 'Bearer ' + token)
+    t.is(res.status, 200);
+    t.not(res.body.data.length, 0);
+    t.not(res.body.count, 0);
+  });
 
-		it('should return update a article',function (done) {
-			request.put('/article/' + mockArticleId + '/updateArticle')
-			.set('Authorization','Bearer ' + token)
-			.send({
-				_id:mockArticleId,
-				title:'更新的标题' + new Date().getTime(),
-				content:'更新的文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
-				status:1,
-				isRePub:true,
-				tags:mockTagIds
-			})
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.success.should.be.true();
-				res.body.article_id.should.be.String;
-				done();
-			});
-		});
-	});
+  it.serial('should sort return blog list', async t => {
+    const res = await koaApp.get('/article/getArticleList')
+      .set('Authorization', 'Bearer ' + token)
+      .query({
+        sortOrder: 'false',
+        sortName: 'visit_count',
+        itemsPerPage: 2
+      })
+    t.is(res.status, 200);
+  });
+});
 
-	describe('get /article/getArticleList',function () {
+describe('test/api/article.test.js => upload image', it => {
+  it.serial('should not file parmas return error', async t => {
+    const res = await koaApp.post('/article/uploadImage')
+      .set('Authorization', 'Bearer ' + token)
+    t.is(res.status, 422);
+  });
 
-		it('should return blog list',function (done) {
-			request.get('/article/getArticleList')
-			.set('Authorization','Bearer ' + token)
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.data.length.should.be.above(0);
-				res.body.count.should.be.Number;
-				res.body.count.should.be.above(0);
-				done();
-			});
+  it.serial('should resturn success', async t => {
+    let stubQiniu = sinon.stub(qiniuHelper, 'upload').returns(Promise.resolve({
+      url: "https://upload.jackhu.top/article/article/test.png"
+    }));
+    const res = await koaApp.post('/article/uploadImage')
+      .set('Authorization', 'Bearer ' + token)
+      .attach('file', __dirname + '/upload.test.png')
+ 
+    t.is(res.status, 200);
+    t.true(res.body.success);
+    t.is(res.body.img_url, 'https://upload.jackhu.top/article/article/test.png');
+    t.true(stubQiniu.calledOnce);
+    stubQiniu.restore();
+  });
+});
 
-		});
+describe('test/api/article.test.js => fetch image', it => {
+  it.serial('should resturn success', async t => {
+    let stubQiniu = sinon.stub(qiniuHelper, 'fetch').returns(Promise.resolve({
+      url: "https://upload.jackhu.top/article/article/test.png"
+    }));
+    const res = await koaApp.post('/article/fetchImage')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        url: 'https://www.test.com/test.png'
+      })
+    t.is(res.status, 200);
+    t.true(res.body.success);
+    t.is(res.body.img_url, 'https://upload.jackhu.top/article/article/test.png')
+    t.true(stubQiniu.calledOnce);
+    stubQiniu.restore();
+  });
 
-		it('should sort return blog list',function (done) {
-			request.get('/article/getArticleList')
-			.set('Authorization','Bearer ' + token)
-			.query({
-				sortOrder:'false',
-				sortName:'visit_count',
-				itemsPerPage:2
-			})
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.data.length.should.be.above(0);
-				res.body.count.should.be.Number;
-				res.body.count.should.be.above(0);
-				done();
-			});
+  it.serial('should not url parmas return error', async t => {
+    const res = await koaApp.post('/article/fetchImage')
+      .set('Authorization', 'Bearer ' + token)
+    t.is(res.status, 422);
+  })
+});
 
-		});
-	});
+describe('test/api/article.test.js => get /article/:id/getArticle', it => {
+  it.serial('should return a article', async t => {
+    const res = await koaApp.get('/article/' + mockArticleId + '/getArticle')
+      .set('Authorization', 'Bearer ' + token)
+    t.is(res.status, 200);
+    t.is(res.body.data._id, mockArticleId.toString())
+  });
+});
 
+describe('test/api/article.test.js => get /article/getFrontArticleList', it => {
+  it.serial('should return blog list', async t => {
+    const res = await koaApp.get('/article/getFrontArticleList')
+    t.is(res.status, 200);
+    t.not(res.body.data.length, 0);
+  });
+  it.serial('should when has tagId return list', async t => {
+    const res = await koaApp.get('/article/getFrontArticleList')
+      .query({
+        itemsPerPage: 1,
+        sortName: 'visit_count',
+        tagId: mockTagId
+      })
+    t.is(res.status, 200);
+  });
+});
 
+describe('test/api/article.test.js => get /article/getFrontArticleCount', it => {
+  it.serial('should return blog list count', async t => {
+    const res = await koaApp.get('/article/getFrontArticleCount')
+    t.is(res.status, 200);
+    t.true(res.body.success);
+    t.not(res.body.count, 0);
+  });
 
-	describe('upload image',function () {
+  it.serial('should when has tagId return count', async t => {
+    const res = await koaApp.get('/article/getFrontArticleCount')
+      .query({
+        itemsPerPage: 1,
+        sortName: 'visit_count',
+        tagId: mockTagId
+      })
+    t.is(res.status, 200);
+    t.true(res.body.success);
+    t.not(res.body.count, 0);
+  });
+});
 
-		it('should not file parmas return error',function (done) {
-			request.post('/article/uploadImage')
-			.set('Authorization','Bearer ' + token)
-			.expect(422,done)
-		});
+describe('test/api/article.test.js => get /article/:id/getFrontArticle', it => {
+  it.serial('should return article', async t => {
+    const res = await koaApp.get('/article/' + mockArticleId + '/getFrontArticle')
+    t.is(res.status, 200);
+    t.is(res.body.data._id, mockArticleId.toString())
+  });
+});
 
-		it('should resturn success',function (done) {
-			var stubQiniu = sinon.stub(qiniuHelper,'upload');
-			stubQiniu.returns(Promise.resolve({
-				url: "https://upload.jackhu.top/article/article/test.png"
-			}));
-			request.post('/article/uploadImage')
-			.set('Authorization','Bearer ' + token)
-			.attach('file', __dirname + '/upload.test.png')
-			.expect('Content-Type', /json/)
-			.expect(200)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.success.should.be.true();
-				res.body.img_url.should.be.equal("https://upload.jackhu.top/article/article/test.png");
-				stubQiniu.calledOnce.should.be.true();
-				stubQiniu.restore();
-				done();
-			})
-		});
+describe('test/api/article.test.js => get /article/getIndexImage', it => {
+  var stubQiniu;
+  beforeEach(function () {
+    stubQiniu = sinon.stub(qiniuHelper, 'list');
+  });
+  afterEach(function () {
+    qiniuHelper.list.restore();
+  });
 
-	});
+  it.serial('should return default index image', async t => {
+    stubQiniu.returns(Promise.resolve({ items: [1, 2, 3, 4, 5].map(i => ({ key: i })) }));
+    const res = await koaApp.get('/article/getIndexImage')
+    t.is(res.status, 200);
+    t.true(res.body.success);
+    t.true(stubQiniu.calledOnce);
+  });
 
-	describe('fetch image',function () {
+  it.serial('should return redis image', async t => {
+    const res = await koaApp.get('/article/getIndexImage')
+    t.is(res.status, 200);
+    t.true(res.body.success);
+  });
+});
 
-		it('should resturn success',function (done) {
-			var stubQiniu = sinon.stub(qiniuHelper,'fetch');
-			stubQiniu.returns(Promise.resolve({
-				url: "https://upload.jackhu.top/article/article/test.png"
-			}));
-			request.post('/article/fetchImage')
-			.set('Authorization','Bearer ' + token)
-			.send({
-				url:'https://www.test.com/test.png'
-			})
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.success.should.be.true();
-				res.body.img_url.should.be.equal("https://upload.jackhu.top/article/article/test.png");
-				stubQiniu.calledOnce.should.be.true();
-				stubQiniu.restore();
-				done();
-			})
-		});
+describe('test/api/article.test.js => get /article/:id/getPrenext', it => {
+  let nextArticleId;
+  before(async () => {
+    const article = await Article.create({
+      title: '测试文章标题' + new Date().getTime(),
+      content: '测试文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
+      status: 1,
+      tags: mockTagIds
+    });
+    nextArticleId = article._id;
+  })
+  after(async ()=>{
+    await Article.findByIdAndRemove(nextArticleId);
+  })
 
-		it('should not url parmas return error',function (done) {
-			request.post('/article/fetchImage')
-			.set('Authorization','Bearer ' + token)
-			.expect(422,done);
-		});
+  it.serial('should return next and prev blog', async t => {
+    const res = await koaApp.get('/article/' + mockArticleId + '/getPrenext')
+    t.is(res.status, 200);
+  });
 
-
-	});
-
-	describe('get /article/:id/getArticle',function () {
-		it('should return a article',function (done) {
-			request.get('/article/' + mockArticleId + '/getArticle')
-			.set('Authorization', 'Bearer ' + token)
-			.expect('Content-Type', /json/)
-			.expect(200)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.data._id.should.equal(mockArticleId.toString());
-				done();
-			})
-		});
-	});
-
-
-	describe('get /article/getFrontArticleList',function () {
-
-		it('should return blog list', function (done) {
-		  request.get('/article/getFrontArticleList')
-		  	.expect('Content-Type', /json/)
-		  	.expect(200)
-		    .end(function (err, res) {
-		    	if(err) return done(err);
-		      res.body.data.length.should.be.above(0);
-		      done();
-		    });
-		});
-		it('should when has tagId return list',function (done) {
-			request.get('/article/getFrontArticleList')
-				.query({
-		      itemsPerPage: 1,
-		      sortName:'visit_count',
-		      tagId: mockTagId
-				})
-				.expect(200)
-				.expect('Content-Type', /json/)
-			  .end(function (err, res) {
-			  	if(err) return done(err);
-			  	//travis在这里始终是空数组,因为它只能支持mongodb 2.4
-			    res.body.data.should.be.Array();
-			    done();
-			  });
-		});
-
-	});
-
-	describe('get /article/getFrontArticleCount',function () {
-		it('should return blog list count',function (done) {
-			request.get('/article/getFrontArticleCount')
-			.expect('Content-Type', /json/)
-			.expect(200)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.success.should.be.true();
-				res.body.count.should.be.Number();
-				done();
-			});
-		});
-
-		it('should when has tagId return count',function (done) {
-			request.get('/article/getFrontArticleCount')
-				.query({
-		      itemsPerPage: 1,
-		      sortName:'visit_count',
-		      tagId:mockTagId
-				})
-				.expect('Content-Type', /json/)
-				.expect(200)
-			  .end(function (err, res) {
-			  	if(err) return done(err);
-			    res.body.success.should.be.true();
-			    //travis
-			    res.body.count.should.be.Number();
-			    done();
-			  });
-		});
-		
-	});
-
-	describe('get /article/:id/getFrontArticle',function () {
-		it('should return article',function (done) {
-			request.get('/article/' + mockArticleId + '/getFrontArticle')
-			.expect('Content-Type', /json/)
-			.expect(200)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.data._id.should.equal(mockArticleId.toString());
-				done();
-			});
-		});
-	});
-
-	describe('get /article/getIndexImage',function () {
-		var stubQiniu;
-		beforeEach(function () {
-			stubQiniu = sinon.stub(qiniuHelper,'list');
-		});
-		afterEach(function () {
-			qiniuHelper.list.restore();
-		});
-
-		it('should return default index image',function (done) {
-			stubQiniu.returns(Promise.resolve({items:[1, 2, 3, 4, 5].map(i=>({key:i}))}));
-			request.get('/article/getIndexImage')
-			.expect(200)
-			.end(function (err,res) {
-				if (err) return done(err);
-				res.body.success.should.be.true();
-				res.body.img.should.startWith('https://upload.jackhu.top');
-				stubQiniu.calledOnce.should.be.true();
-				done();
-			});
-		});
-		it('should return redis image',function (done) {
-			request.get('/article/getIndexImage')
-			.expect(200)
-			.end(function (err,res) {
-				if (err) return done(err);
-				res.body.success.should.be.true();
-				res.body.img.should.be.String;
-				done();
-			});
-		});
-	});
-
-	describe('get /article/:id/getPrenext', function() {
-		let nextArticleId;
-		before(co.wrap(function *() {
-			const article = yield Article.create({
-															title:'测试文章标题' + new Date().getTime(),
-															content:'测试文章内容![enter image description here](https://upload.jackhu.top/test/111.png "enter image title here")',
-															status:1,
-															tags:mockTagIds
-														});
-			nextArticleId = article._id;
-		}))
-
-		after(co.wrap(function *() {
-			yield Article.findByIdAndRemove(nextArticleId);
-		}))
-
-		it('should return next and prev blog',function (done) {
-			request.get('/article/' + mockArticleId + '/getPrenext')
-			.expect('Content-Type', /json/)
-			.expect(200)
-			.end(function (err,res) {
-				if (err) return done(err);
-				res.body.data.next.should.be.Object;
-				res.body.data.prev.should.be.Object;
-				done();
-			})
-		});
-
-		it('should when has tagId return nextpre blog',function (done) {
-			request.get('/article/' + mockArticleId + '/getPrenext')
+  it.serial('should when has tagId return nextpre blog', async t => {
+    const res = await koaApp.get('/article/' + mockArticleId + '/getPrenext')
 			.query({
 				sortName:'visit_count',
 				tagId:mockTagId
 			})
-			.expect('Content-Type', /json/)
-			.expect(200)
-			.end(function (err,res) {
-				if (err) return done(err);
-				res.body.data.next.should.be.Object;
-				res.body.data.prev.should.be.Object;
-				done();
-			})
-		});
+    t.is(res.status, 200);
+  });
+});
 
-	});
-
-	describe('put /article/:id/toggleLike', function() {
-		it('should add like return success',function (done) {
-			request.put('/article/' + mockArticleId + '/toggleLike')
+describe('test/api/article.test.js => put /article/:id/toggleLike', it => {
+  it.serial('should add like return success', async t => {
+    const res = await koaApp.put('/article/' + mockArticleId + '/toggleLike')
 			.set('Authorization', 'Bearer ' + token)
-			.expect('Content-Type', /json/)
-			.expect(200)
-			.end(function (err,res) {
-				if (err) return done(err);
-				res.body.success.should.be.true();
-				res.body.count.should.be.equal(2);
-				res.body.isLike.should.be.true();
-				done();
-			})
-		});
-		it('should when second toggle like return success',function (done) {
-			request.put('/article/' + mockArticleId + '/toggleLike')
-			.set('Authorization', 'Bearer ' + token)
-			.expect('Content-Type', /json/)
-			.expect(200)
-			.end(function (err,res) {
-				if (err) return done(err);
-				res.body.success.should.be.true();
-				res.body.count.should.be.equal(1);
-				res.body.isLike.should.be.false();
-				done();
-			})
-		});
-	});
+    t.is(res.status, 200);
+    t.true(res.body.success);
+    t.true(res.body.isLike);
+    t.is(res.body.count, 2)
+  });
 
-	describe('delete /article/:id', function() {
-		it('should when id error return error',function (done) {
-			request.del('/article/ddddddd')
+  it.serial('should when second toggle like return success', async t => {
+    const res = await koaApp.put('/article/' + mockArticleId + '/toggleLike')
 			.set('Authorization', 'Bearer ' + token)
-			.expect(500,done);
+    t.is(res.status, 200);
+    t.true(res.body.success);
+    t.false(res.body.isLike);
+    t.is(res.body.count, 1)
+  });
+});
 
-		});
+describe('test/api/article.test.js => delete /article/:id', it => {
+  it.serial('should when id error return error', async t => {
+    const res = await koaApp.del('/article/ddddddd').set('Authorization', 'Bearer ' + token)
+    t.is(res.status, 500);
+  });
 
-		it('should return success',function (done) {
-			request.del('/article/' + mockArticleId)
+  it.serial('should return success', async t => {
+    const res = await koaApp.del('/article/' + mockArticleId)
 			.set('Authorization', 'Bearer ' + token)
-			.expect(200)
-			.end(function (err,res) {
-				if (err) return done(err);
-				res.body.success.should.be.true();
-				done();
-			})
-		})
-	});
+    t.is(res.status, 200);
+    t.true(res.body.success);
+  });
 });

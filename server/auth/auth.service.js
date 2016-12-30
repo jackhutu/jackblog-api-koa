@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('koa-passport');
 const config = require('../config/env');
 const jwt = require('koa-jwt');
+const jsonwebtoken = require('jsonwebtoken');
 const compose = require('koa-compose');
 const User = mongoose.model('User');
 
@@ -12,11 +13,11 @@ const User = mongoose.model('User');
  */
 function authToken() {
   return compose([
-    function *(next) {
-      if(this.query && this.query.access_token){
-        this.headers.authorization = 'Bearer ' + this.query.access_token;
+    async (ctx,next)=> {
+      if(ctx.query && ctx.query.access_token){
+        ctx.headers.authorization = 'Bearer ' + ctx.query.access_token;
       }
-      yield next;
+      await next();
     },
     jwt({ secret: config.session.secrets,passthrough: true })
   ])
@@ -27,15 +28,15 @@ function authToken() {
 function isAuthenticated() {
   return compose([
       authToken(),
-      function *(next) {
-        if(!this.state.user) this.throw('UnauthorizedError',401);
-        yield next;
+      async (ctx,next) =>{
+        if(!ctx.state.user) ctx.throw('UnauthorizedError',401);
+        await next();
       },
-      function *(next) {
-        var user = yield User.findById(this.state.user._id);
-        if (!user) this.throw('UnauthorizedError',401);
-        this.req.user = user;
-        yield next;
+      async (ctx,next) =>{
+        var user = await User.findById(ctx.state.user._id);
+        if (!user) ctx.throw('UnauthorizedError',401);
+        ctx.req.user = user;
+        await next();
       }
     ])
 }
@@ -47,11 +48,11 @@ function hasRole(roleRequired) {
   if (!roleRequired) this.throw('Required role needs to be set');
   return compose([
       isAuthenticated(),
-      function *(next) {
-        if (config.userRoles.indexOf(this.req.user.role) >= config.userRoles.indexOf(roleRequired)) {
-          yield next;
+      async (ctx,next) =>{
+        if (config.userRoles.indexOf(ctx.req.user.role) >= config.userRoles.indexOf(roleRequired)) {
+          await next();
         }else {
-          this.throw(403);
+          ctx.throw(403);
         }
       }
     ])
@@ -61,7 +62,7 @@ function hasRole(roleRequired) {
  * 生成token
  */
 function signToken(id) {
-  return jwt.sign({ _id: id }, config.session.secrets, { expiresIn: '1y' });
+  return jsonwebtoken.sign({ _id: id }, config.session.secrets, { expiresIn: '1y' });
 }
 
 /**
@@ -70,14 +71,14 @@ function signToken(id) {
 function snsPassport() {
   return compose([
       authToken(),
-      function *(next) {
-        this.session.passport = {
-          redirectUrl: this.query.redirectUrl || '/'
+      async (ctx,next) =>{
+        ctx.session.passport = {
+          redirectUrl: ctx.query.redirectUrl || '/'
         }
-        if(this.state.user){ 
-          this.session.passport.userId = this.state.user._id 
+        if(ctx.state.user){ 
+          ctx.session.passport.userId = ctx.state.user._id 
         }
-        yield next;
+        await next();
       }
     ])
 }

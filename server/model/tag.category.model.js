@@ -14,4 +14,5 @@ let TagCategorySchema = new Schema({
 	desc:String		//分类描述
 });
 
+exports.TagCategorySchema = TagCategorySchema;
 module.exports = mongoose.model('TagCategory',TagCategorySchema);

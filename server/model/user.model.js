@@ -172,5 +172,5 @@ UserSchema.methods = {
 
 UserSchema.set('toObject', { virtuals: true });
 
-
+exports.UserSchema = UserSchema;
 module.exports = mongoose.model('User', UserSchema);

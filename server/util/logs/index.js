@@ -33,12 +33,4 @@ const logger = bunyan.createLogger({
 	]
 });
 
-function createLoggerMiddle() {
-  return function *(next) {
-    this.logger = logger;
-    yield next; // jshint ignore:line
-  };
-};
-
-module.exports = createLoggerMiddle;
-module.exports.logger = logger;
+module.exports = logger;

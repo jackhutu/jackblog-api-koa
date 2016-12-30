@@ -74,4 +74,5 @@ ArticleSchema
     };
   });
 
+exports.CommentSchema = ArticleSchema;
 module.exports = mongoose.model('Article',ArticleSchema);

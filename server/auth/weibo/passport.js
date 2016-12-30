@@ -13,13 +13,13 @@ exports.setup = function (User,config) {
       callbackURL: config.weibo.callbackURL,
       passReqToCallback: true
     },
-    function(req, accessToken, refreshToken, profile, done) {
+    async (req, accessToken, refreshToken, profile, done)=> {
       var userId = req.session.passport.userId || null;
       profile._json.token = accessToken;
       //如果userId不存在.而新建用户,否而更新用户.
       if(userId) return done(new Error('您已经是登录状态了'));
-      co(function *() {
-        const checkUserId = yield User.findOne({'weibo.id': profile.id});
+      try {
+        const checkUserId = await User.findOne({'weibo.id': profile.id});
         if(checkUserId) return done(null, checkUserId);
         let newUser = {
           nickname: profile.displayName || profile.username,
@@ -28,17 +28,16 @@ exports.setup = function (User,config) {
           weibo: profile._json,
           status:1
         }
-        const checkUserName = yield User.findOne({nickname:newUser.nickname});
+        const checkUserName = await User.findOne({nickname:newUser.nickname});
         if(checkUserName){
           newUser.nickname = tools.randomString();
         }
-        const user = yield new User(newUser).save();
+        const user = await new User(newUser).save();
         return done(null, user);
-      }).catch(function (err) {
+      } catch (err) {
         debug('WeiboStrategy error');
-        return done(err);
-      });
-
+        return done(err);       
+      }
     }
   ));
 };

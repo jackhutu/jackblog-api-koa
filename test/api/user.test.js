@@ -1,163 +1,150 @@
-"use strict";
+import { test, describe, before, after, beforeEach } from 'ava-spec';
+import { koaApp } from '../helpers/app';
+import { createUser, getToken } from '../helpers/auth';
+import { UserSchema } from '../../server/model/user.model';
+import { LogsSchema } from '../../server/model/logs.model';
+import config from '../../server/config/env';
 
-const app = require('../../server/app');
-const request = require('supertest')(app.listen());
-const should = require("should"); 
-const mongoose = require('mongoose');
-const User = mongoose.model('User');
-const Logs = mongoose.model('Logs');
-const co = require("co");
-const authHelper = require('../middlewares/authHelper');
+let User, Logs, token,mockUserId,mockAdminId,mockUpdateNickName,mockAdminNickname = '测试' + new Date().getTime();
+before(async t => {
+  const mongoose = require('../../server/connect');
+  mongoose.Promise = require('bluebird');
+  User = mongoose.model('User', UserSchema);
+  Logs = mongoose.model('Logs', LogsSchema);
+  const user = await createUser(User,'admin',mockAdminNickname);
+  mockAdminId = user._id;
+  token = await getToken(user.email);
+});
 
-describe('test/api/user.test.js',function () {
-	var token,mockUserId,mockAdminId,mockUpdateNickName,mockAdminNickname = '测试' + new Date().getTime();
-	before(co.wrap(function *() {
-	  const user = yield authHelper.createUser('admin',mockAdminNickname);
-	  mockAdminId = user._id;
-	  token = yield authHelper.getToken(request,user.email);
-	}));
+after(async () => {
+  await User.findByIdAndRemove(mockAdminId);
+  await Logs.remove();
+});
 
-	after(co.wrap(function *() {
-		yield User.findByIdAndRemove(mockAdminId);
-		yield Logs.remove();
-	}));		
-
-
-	describe('post /users/addUser', function() {
-		it('should when not nickname return error', function(done) {
-			request.post('/users/addUser')
+describe('test/api/user.test.js => post /users/addUser', it => {
+  it.serial('should when not nickname return error', async t => {
+    const res = await koaApp.post('/users/addUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				email:'test@test.com' + new Date().getTime(),
 				password:'test'
 			})
-			.expect(422,done);
-		});
+    t.is(res.status, 422);
+  });
 
-		it('should when not email return error', function(done) {
-			request.post('/users/addUser')
+  it.serial('should when not email return error', async t => {
+    const res = await koaApp.post('/users/addUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				nickname: "呢称" + new Date().getTime(),
 				password:'test'
 			})
-			.expect(422,done);
-		});
+    t.is(res.status, 422);
+  });
 
-		it('should when nickname error return error', function(done) {
-			request.post('/users/addUser')
-			.set('Authorization','Bearer ' + token)
-			.send({
-				nickname: 'jakc^^&&',
-				email:'test@test.com' + new Date().getTime(),
-				password:'test'
-			})
-			.expect(422,done);
-		});
-
-		it('should when email error return error', function(done) {
-			request.post('/users/addUser')
+  it.serial('should when nickname error return error', async t => {
+    const res = await koaApp.post('/users/addUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				nickname: "呢称" + new Date().getTime(),
-				email:'test.com' + new Date().getTime(),
 				password:'test'
 			})
-			.expect(422,done);
-		});
-		var nickname = '呢称' + new Date().getTime();
-		it('should return new user', function(done) {
-			request.post('/users/addUser')
+    t.is(res.status, 422);
+  });
+
+  it.serial('should when email error return error', async t => {
+    const res = await koaApp.post('/users/addUser')
+			.set('Authorization','Bearer ' + token)
+			.send({
+				nickname: "呢称" + new Date().getTime(),
+				password:'test'
+			})
+    t.is(res.status, 422);
+  });
+
+  var nickname = '呢称' + new Date().getTime();
+  it.serial('should return new user', async t => {
+    const res = await koaApp.post('/users/addUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				nickname: nickname,
 				email:'test@test.com' + new Date().getTime(),
 				password:'test'
 			})
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.end(function (err,res) {
-				if(err) return done(err);
-				mockUserId = res.body.user_id;
-				res.body.user_id.should.be.String();
-				res.body.success.should.be.true();
-				done();
-			})
-		});
-
-		it('should same nickname return error', function(done) {
-			request.post('/users/addUser')
+    t.is(res.status, 200);
+    t.true(res.body.success);
+    mockUserId = res.body.user_id;
+  });
+  it.serial('should same nickname return error', async t => {
+    const res = await koaApp.post('/users/addUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				nickname: nickname,
 				email:'test@test.com' + new Date().getTime(),
 				password:'test'
 			})
-			.expect(500,done);
-		});
+    t.is(res.status, 500);
+  });
+});
 
-	});
-
-	describe('put /users/:id/updateUser', function() {
-		mockUpdateNickName = '呢称' + new Date().getTime();
-
-		it('should when not nickname return error', function(done) {
-			request.put('/users/' + mockUserId + '/updateUser')
+describe('test/api/user.test.js => put /users/:id/updateUser', it => {
+  mockUpdateNickName = '呢称' + new Date().getTime();
+  it.serial('should when not nickname return error', async t => {
+    const res = await koaApp.put('/users/' + mockUserId + '/updateUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				email:'test@test.com' + new Date().getTime(),
 				status:1
 			})
-			.expect(422,done);
-		});
-		it('should when not email return error', function(done) {
-			request.put('/users/' + mockUserId + '/updateUser')
+    t.is(res.status, 422);
+  });
+
+  it.serial('should when not email return error', async t => {
+    const res = await koaApp.put('/users/' + mockUserId + '/updateUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				nickname:mockUpdateNickName,
 				status:1
 			})
-			.expect(422,done);
-		});
-		it('should when nickname error return error', function(done) {
-			request.put('/users/' + mockUserId + '/updateUser')
+    t.is(res.status, 422);
+  });
+
+  it.serial('should when nickname error return error', async t => {
+    const res = await koaApp.put('/users/' + mockUserId + '/updateUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				nickname:'jack^^%%',
 				email:'test@test.com' + new Date().getTime(),
 				status:1
 			})
-			.expect(422,done);
-		});
-		it('should when email error return error', function(done) {
-			request.put('/users/' + mockUserId + '/updateUser')
+    t.is(res.status, 422);
+  });
+
+  it.serial('should when email error return error', async t => {
+    const res = await koaApp.put('/users/' + mockUserId + '/updateUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				nickname:mockUpdateNickName,
 				email:'test.com',
 				status:1
 			})
-			.expect(422,done);
-		});
-		it('should return update user', function(done) {
-			request.put('/users/' + mockUserId + '/updateUser')
+    t.is(res.status, 422);
+  });
+
+
+  it.serial('should return update user', async t => {
+    const res = await koaApp.put('/users/' + mockUserId + '/updateUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				nickname:mockUpdateNickName,
 				email:'test@test.com' + new Date().getTime(),
 				status:1
 			})
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.user_id.should.be.String();
-				res.body.success.should.be.true();
-				done();
-			})
-		});
-		it('should update password return success', function(done) {
-			request.put('/users/' + mockUserId + '/updateUser')
+    t.is(res.status, 200);
+    t.true(res.body.success);
+  });
+  it.serial('should update password return success', async t => {
+    const res = await koaApp.put('/users/' + mockUserId + '/updateUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				nickname:mockUpdateNickName,
@@ -165,171 +152,120 @@ describe('test/api/user.test.js',function () {
 				status:1,
 				newPassword:'testpwd'
 			})
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.user_id.should.be.String();
-				res.body.success.should.be.true();
-				done();
-			})
-		});
+    t.is(res.status, 200);
+    t.true(res.body.success);
+  });
 
-		it('should same nickname return error', function(done) {
-			request.put('/users/' + mockUserId + '/updateUser')
+  it.serial('should same nickname return error', async t => {
+    const res = await koaApp.put('/users/' + mockUserId + '/updateUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				nickname:mockAdminNickname,
 				email:'test@test.com' + new Date().getTime(),
 				status:1
 			})
-			.expect(500,done);
-		});
+    t.is(res.status, 500);
+  });
+});
 
-
-	});
-
-	describe('put /users/mdUser', function() {
-
-		it('should when not nickname return error', function(done) {
-			request.put('/users/mdUser')
+describe('test/api/user.test.js => put /users/mdUser', it => {
+  it.serial('should when not nickname return error', async t => {
+    const res = await koaApp.put('/users/mdUser')
 			.set('Authorization','Bearer ' + token)
-			.expect(422,done);
-		});
+    t.is(res.status, 422);
+  });
 
-		it('should when nickname error return error', function(done) {
-			request.put('/users/mdUser')
+  it.serial('should when nickname error return error', async t => {
+    const res = await koaApp.put('/users/mdUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				nickname:'jack^^&&'
 			})
-			.expect(422,done);
-		});
-		it('should return my user', function(done) {
-			request.put('/users/mdUser')
+    t.is(res.status, 422);
+  });
+
+  it.serial('should return my user', async t => {
+    const res = await koaApp.put('/users/mdUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				nickname:'呢称' + new Date().getTime()
 			})
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.data.nickname.should.be.String();
-				res.body.success.should.be.true();
-				done();
-			})
-		});
+    t.is(res.status, 200);
+    t.true(res.body.success)
+  });
 
-		it('should when same nickname return error', function(done) {
-			request.put('/users/mdUser')
+  it.serial('should when same nickname return error', async t => {
+    const res = await koaApp.put('/users/mdUser')
 			.set('Authorization','Bearer ' + token)
 			.send({
 				nickname: mockUpdateNickName
 			})
-			.expect(500,done);
-		});
+    t.is(res.status, 500);
+  });
+});
 
-	});
-
-	describe('get /users/getUserList',function () {
-			it('should return users list',function (done) {
-				request.get('/users/getUserList')
+describe('test/api/user.test.js => get /users/getUserList', it => {
+  it.serial('should return users list', async t => {
+    const res = await koaApp.get('/users/getUserList')
 				.set('Authorization','Bearer ' + token)
-				.expect(200)
-				.expect('Content-Type', /json/)
-				.end(function (err,res) {
-					if(err) return done(err);
-					res.body.data.length.should.be.above(0);
-					res.body.count.should.be.above(0);
-					done();
-				})
-			});
-			it('should sort false return users list',function (done) {
-				request.get('/users/getUserList')
+    t.is(res.status, 200);
+    t.not(res.body.data.length, 0);
+    t.not(res.body.count, 0);
+  });
+
+  it.serial('should sort false return users list', async t => {
+    const res = await koaApp.get('/users/getUserList')
 				.set('Authorization','Bearer ' + token)
 				.query({
 					itemsPerPage:1,
 					sortName:'',
 					sortOrder:'false'
 				})
-				.expect(200)
-				.expect('Content-Type', /json/)
-				.end(function (err,res) {
-					if(err) return done(err);
-					res.body.data.length.should.be.above(0);
-					res.body.count.should.be.above(0);
-					done();
-				})
-			});
-	});
+    t.is(res.status, 200);
+    t.not(res.body.data.length, 0);
+    t.not(res.body.count, 0);   
+  });
+});
 
-	describe('get /users/getUserProvider', function() {
-		it('should return User Provider', function(done) {
-			request.get('/users/getUserProvider')
+describe('test/api/user.test.js => get /users/getUserProvider', it => {
+  it.serial('should return users list', async t => {
+    const res = await koaApp.get('/users/getUserProvider')
 			.set('Authorization','Bearer ' + token)
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.data.should.be.Object();
-				done();
-			})
-		});
-	});
+    t.is(res.status, 200);
+  });
+});
 
-	describe('get /users/getCaptcha', function() {
-		it('should return captcha image', function(done) {
-			request.get('/users/getCaptcha')
-			.expect(200,done);
-		});
-	});
+describe('test/api/user.test.js => get /users/snsLogins', it => {
+  it.serial('should return 200', async t => {
+    const res = await koaApp.get('/users/snsLogins')
+    t.is(res.status, 200);
+  });
+});
 
-	describe('get /users/snsLogins', function() {
-		it('should return 200', function(done) {
-			request.get('/users/snsLogins')
-			.expect(200,done);
-		});
-	});
+describe('test/api/user.test.js => get /users/me', it => {
+  it.serial('should return me info', async t => {
+    const res = await koaApp.get('/users/me').set('Authorization','Bearer ' + token)
+    t.is(res.status, 200);
+  });
+});
 
-	describe('get /users/me', function() {
-		it('should return me info', function(done) {
-			request.get('/users/me')
+describe('test/api/user.test.js => del /users/:id', it => {
+  it.serial('should if userid === req.user._id return error', async t => {
+    const res = await koaApp.del('/users/' + mockAdminId)
 			.set('Authorization','Bearer ' + token)
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.nickname.should.be.String();
-				done();
-			})
-		});
-	});
+    t.is(res.status, 403);
+  });
 
-	describe('del /users/:id', function() {
-		it('should if userid === req.user._id return error', function(done) {
-			request.del('/users/' + mockAdminId)
+  it.serial('should if userId error return error', async t => {
+    const res = await koaApp.del('/users/dddddd')
 			.set('Authorization','Bearer ' + token)
-			.expect(403,done);
-		});
+    t.is(res.status, 500);
+  });
 
-		it('should if userId error return error', function(done) {
-			request.del('/users/dddddd')
+  it.serial('should return me info', async t => {
+    const res = await koaApp.del('/users/' + mockUserId)
 			.set('Authorization','Bearer ' + token)
-			.expect(500,done);
-		});
-
-		it('should return me info', function(done) {
-			request.del('/users/' + mockUserId)
-			.set('Authorization','Bearer ' + token)
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.success.should.be.true();
-				done();
-			})
-		});
-	});
-
+    t.is(res.status, 200);
+    t.true(res.body.success);
+  });
 });

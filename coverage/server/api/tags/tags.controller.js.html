@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for server/api/tags/tags.controller.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">server/api/tags</a> tags.controller.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.63% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>88/95</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">90% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>18/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>18/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.63% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>88/95</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+const _ = require('lodash');
+const mongoose = require('mongoose');
+const TagCategory = mongoose.model('TagCategory');
+const Tag = mongoose.model('Tag');
+&nbsp;
+//添加添签分类.
+exports.addTagCat = async (ctx, next)=&gt;{
+	const catName = ctx.request.body.name;
+	if(!catName){
+		ctx.status = 422;
+		return ctx.body = {error_msg:"标签分类名称不能为空."};
+	}
+	try{
+		const cat = await TagCategory.findOne({name:catName});
+		if(cat){
+			ctx.status = 403;
+			return ctx.body = {error_msg:"分类名称已经存在."};
+		}
+		const result = await TagCategory.create(ctx.request.body);
+		ctx.status = 200;
+		ctx.body = {success:true,cat_id:result._id};
+	}catch(err){
+<span class="cstat-no" title="statement not covered" >		ctx.throw(err);</span>
+	}
+}
+&nbsp;
+//获取分类列表
+exports.getTagCatList = async (ctx, next)=&gt;{
+	try{
+		const result = await TagCategory.find();
+		ctx.status = 200;
+		ctx.body = {success:true,data:result};
+	}catch(err){
+<span class="cstat-no" title="statement not covered" >		ctx.throw(err);</span>
+	}
+}
+&nbsp;
+//更新分类
+exports.updateTagCat = async (ctx, next)=&gt;{
+	const id = ctx.params.id;
+	<span class="missing-if-branch" title="else path not taken" >E</span>if(ctx.request.body._id){
+	  delete ctx.request.body._id;
+	}
+	try{
+		const result = await TagCategory.findByIdAndUpdate(id,ctx.request.body,{new:true});
+		ctx.status = 200;
+		ctx.body = {success:true,cat_id:result._id};
+	}catch(err){
+<span class="cstat-no" title="statement not covered" >		ctx.throw(err);</span>
+	}
+}
+//删除分类
+//(如果分类下有标签,则不可删除)
+exports.delTagCat = async (ctx, next)=&gt;{
+	const id = ctx.params.id;
+	try{
+		const tag = await Tag.findOne({cid:id});
+		if(tag){
+			ctx.status = 403;
+			ctx.body = {error_msg:"此分类下有标签不可删除."};
+		}else{
+			await TagCategory.findByIdAndRemove(id);
+			ctx.status = 200;
+			ctx.body = {success:true};
+		}
+	}catch(err){
+		ctx.throw(err);
+	}
+}
+&nbsp;
+//获取标签列表
+exports.getTagList = async (ctx, next)=&gt;{
+	const cid = ctx.params.id;
+  let condition = {};
+  if(cid != 0){
+  	condition = {cid:cid};
+  }
+  try{
+  	const tagList = await Tag.find(condition)
+											  	.sort('sort')
+											  	.populate('cid')
+											  	.exec();
+		ctx.status = 200;
+		ctx.body = {success:true,data:tagList};
+  }catch(err){
+<span class="cstat-no" title="statement not covered" >  	ctx.throw(err);</span>
+  }
+}
+//添加标签
+exports.addTag = async (ctx, next)=&gt;{
+	//标签名称不能重复,标签分类名称必须有.
+	const cid = ctx.request.body.cid;
+	const tagName = ctx.request.body.name;
+	let error_msg;
+	if(!tagName){
+		error_msg = '标签名称不能为空.';
+	}else if(!cid){
+		error_msg = '必须选择一个标签分类.';
+	}
+&nbsp;
+	if(error_msg){
+		ctx.status = 422;
+		return ctx.body = {error_msg:error_msg};
+	}
+	try{
+		const tag = await Tag.findOne({name:tagName});
+		if(tag){
+			ctx.status = 403;
+			return ctx.body = {error_msg:'标签名称已经存在.'};
+		}else{
+			const result = await Tag.create(ctx.request.body);
+			ctx.status = 200;
+			ctx.body = {success:true,tag_id:result._id};
+		}
+	}catch(err){
+<span class="cstat-no" title="statement not covered" >		ctx.throw(err);</span>
+	}
+}
+&nbsp;
+//删除标签
+exports.deleteTag = async (ctx, next)=&gt;{
+	const id = ctx.params.id;
+	try{
+		await Tag.findByIdAndRemove(id);
+		ctx.status = 200;
+		ctx.body = {success:true};
+	}catch(err){
+		ctx.throw(err);
+	}
+}
+//更新标签
+exports.updateTag = async (ctx, next)=&gt;{
+	const id = ctx.params.id;
+	<span class="missing-if-branch" title="else path not taken" >E</span>if(ctx.request.body._id){
+	  delete ctx.request.body._id;
+	}
+	try{
+		const result = await Tag.findByIdAndUpdate(id,ctx.request.body,{new:true});
+		ctx.status = 200;
+		ctx.body = {success:true,tag_id:result._id};
+	}catch(err){
+<span class="cstat-no" title="statement not covered" >		ctx.throw(err);</span>
+	}
+}
+//前台数据
+exports.getFrontTagList = async (ctx, next)=&gt;{
+	try{
+		const result = await Tag.find({is_show:true},{},{sort:{'sort':-1}});
+		ctx.status = 200;
+		ctx.body = {data:result};
+	}catch(err){
+<span class="cstat-no" title="statement not covered" >		ctx.throw(err);</span>
+	}
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 30 2016 16:55:20 GMT+0800 (CST)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

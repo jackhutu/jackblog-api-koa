@@ -7,29 +7,28 @@ const User = mongoose.model('User');
 const auth = require('../auth.service');
 
 function checkCaptcha() {
-  return function *(next) {
+  return async (ctx, next) => {
     //测试环境不用验证码
     let error_msg;
-    if(process.env.NODE_ENV !== 'test' && !this.req.headers.jackblog){
-      if(!this.request.body.captcha){
+    if(process.env.NODE_ENV !== 'test' && !ctx.req.headers.jackblog){
+      if(!ctx.request.body.captcha){
         error_msg = "验证码不能为空.";
-      }else if(this.session.captcha !== this.request.body.captcha.toUpperCase()){
+      }else if(ctx.session.captcha !== ctx.request.body.captcha.toUpperCase()){
         error_msg = "验证码错误.";
-      }else if(this.request.body.email === '' || this.request.body.password === ''){
+      }else if(ctx.request.body.email === '' || ctx.request.body.password === ''){
         error_msg = "用户名和密码不能为空.";
       }
     }
     if(error_msg){
-      this.status = 422;
-      return this.body = {error_msg:error_msg}
+      ctx.status = 422;
+      return ctx.body = {error_msg:error_msg}
     }
-    yield next;
+    await next();
   }
 }
 
-router.post('/', checkCaptcha(), function*(next) {
-  var ctx = this
-  yield passport.authenticate('local', function*(err, user, info) {
+router.post('/', checkCaptcha(), async (ctx,next) =>{
+  await passport.authenticate('local', async (err, user, info)=> {
     if (err) ctx.throw(err);
     if(info){
       ctx.status = 403;
@@ -37,6 +36,7 @@ router.post('/', checkCaptcha(), function*(next) {
     }
     const token = auth.signToken(user._id);
     ctx.body = {token: token};
-  }).call(this, next)
+  })(ctx, next)
 })
+
 module.exports = router;

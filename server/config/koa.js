@@ -10,6 +10,7 @@ const compress = require("koa-compress");
 const bodyParser = require("koa-bodyparser");
 const cors = require('koa-cors');
 const passport = require('koa-passport');
+const convert = require('koa-convert');
 const config = require('./env');
 
 module.exports = function(app) {
@@ -17,14 +18,14 @@ module.exports = function(app) {
     app.use(responseTime());
     app.use(logger());
   }
-  app.use(cors({
+  app.use(convert(cors({
     origin: true,
     credentials: true
-  }));
+  })));
   app.use(bodyParser());
   app.use(json());
   app.keys = [config.session.secrets];
-  app.use(session({
+  app.use(convert(session({
     key: "jackblog.sid",
     store: new RedisStore({
       host:config.redis.host,
@@ -32,7 +33,7 @@ module.exports = function(app) {
       auth_pass:config.redis.password || ''
     }),
     cookie: config.session.cookie
-  }));
+  })));
   app.use(passport.initialize());
   app.use(compress());
 };

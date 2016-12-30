@@ -30,4 +30,5 @@ let TagSchema = new Schema({
 	}
 });
 
+exports.TagSchema = TagSchema;
 module.exports = mongoose.model('Tag',TagSchema);

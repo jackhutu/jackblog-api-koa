@@ -6,93 +6,93 @@ const TagCategory = mongoose.model('TagCategory');
 const Tag = mongoose.model('Tag');
 
 //添加添签分类.
-exports.addTagCat = function *() {
-	const catName = this.request.body.name;
+exports.addTagCat = async (ctx, next)=>{
+	const catName = ctx.request.body.name;
 	if(!catName){
-		this.status = 422;
-		return this.body = {error_msg:"标签分类名称不能为空."};
+		ctx.status = 422;
+		return ctx.body = {error_msg:"标签分类名称不能为空."};
 	}
 	try{
-		const cat = yield TagCategory.findOne({name:catName});
+		const cat = await TagCategory.findOne({name:catName});
 		if(cat){
-			this.status = 403;
-			return this.body = {error_msg:"分类名称已经存在."};
+			ctx.status = 403;
+			return ctx.body = {error_msg:"分类名称已经存在."};
 		}
-		const result = yield TagCategory.create(this.request.body);
-		this.status = 200;
-		this.body = {success:true,cat_id:result._id};
+		const result = await TagCategory.create(ctx.request.body);
+		ctx.status = 200;
+		ctx.body = {success:true,cat_id:result._id};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 
 //获取分类列表
-exports.getTagCatList = function *() {
+exports.getTagCatList = async (ctx, next)=>{
 	try{
-		const result = yield TagCategory.find();
-		this.status = 200;
-		this.body = {success:true,data:result};
+		const result = await TagCategory.find();
+		ctx.status = 200;
+		ctx.body = {success:true,data:result};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 
 //更新分类
-exports.updateTagCat = function *() {
-	const id = this.params.id;
-	if(this.request.body._id){
-	  delete this.request.body._id;
+exports.updateTagCat = async (ctx, next)=>{
+	const id = ctx.params.id;
+	if(ctx.request.body._id){
+	  delete ctx.request.body._id;
 	}
 	try{
-		const result = yield TagCategory.findByIdAndUpdate(id,this.request.body,{new:true});
-		this.status = 200;
-		this.body = {success:true,cat_id:result._id};
+		const result = await TagCategory.findByIdAndUpdate(id,ctx.request.body,{new:true});
+		ctx.status = 200;
+		ctx.body = {success:true,cat_id:result._id};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 //删除分类
 //(如果分类下有标签,则不可删除)
-exports.delTagCat = function *() {
-	const id = this.params.id;
+exports.delTagCat = async (ctx, next)=>{
+	const id = ctx.params.id;
 	try{
-		const tag = yield Tag.findOne({cid:id});
+		const tag = await Tag.findOne({cid:id});
 		if(tag){
-			this.status = 403;
-			this.body = {error_msg:"此分类下有标签不可删除."};
+			ctx.status = 403;
+			ctx.body = {error_msg:"此分类下有标签不可删除."};
 		}else{
-			yield TagCategory.findByIdAndRemove(id);
-			this.status = 200;
-			this.body = {success:true};
+			await TagCategory.findByIdAndRemove(id);
+			ctx.status = 200;
+			ctx.body = {success:true};
 		}
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 
 //获取标签列表
-exports.getTagList = function *() {
-	const cid = this.params.id;
+exports.getTagList = async (ctx, next)=>{
+	const cid = ctx.params.id;
   let condition = {};
   if(cid != 0){
   	condition = {cid:cid};
   }
   try{
-  	const tagList = yield Tag.find(condition)
+  	const tagList = await Tag.find(condition)
 											  	.sort('sort')
 											  	.populate('cid')
 											  	.exec();
-		this.status = 200;
-		this.body = {success:true,data:tagList};
+		ctx.status = 200;
+		ctx.body = {success:true,data:tagList};
   }catch(err){
-  	this.throw(err);
+  	ctx.throw(err);
   }
 }
 //添加标签
-exports.addTag = function *() {
+exports.addTag = async (ctx, next)=>{
 	//标签名称不能重复,标签分类名称必须有.
-	const cid = this.request.body.cid;
-	const tagName = this.request.body.name;
+	const cid = ctx.request.body.cid;
+	const tagName = ctx.request.body.name;
 	let error_msg;
 	if(!tagName){
 		error_msg = '标签名称不能为空.';
@@ -101,56 +101,56 @@ exports.addTag = function *() {
 	}
 
 	if(error_msg){
-		this.status = 422;
-		return this.body = {error_msg:error_msg};
+		ctx.status = 422;
+		return ctx.body = {error_msg:error_msg};
 	}
 	try{
-		const tag = yield Tag.findOne({name:tagName});
+		const tag = await Tag.findOne({name:tagName});
 		if(tag){
-			this.status = 403;
-			return this.body = {error_msg:'标签名称已经存在.'};
+			ctx.status = 403;
+			return ctx.body = {error_msg:'标签名称已经存在.'};
 		}else{
-			const result = yield Tag.create(this.request.body);
-			this.status = 200;
-			this.body = {success:true,tag_id:result._id};
+			const result = await Tag.create(ctx.request.body);
+			ctx.status = 200;
+			ctx.body = {success:true,tag_id:result._id};
 		}
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 
 //删除标签
-exports.deleteTag = function *() {
-	const id = this.params.id;
+exports.deleteTag = async (ctx, next)=>{
+	const id = ctx.params.id;
 	try{
-		yield Tag.findByIdAndRemove(id);
-		this.status = 200;
-		this.body = {success:true};
+		await Tag.findByIdAndRemove(id);
+		ctx.status = 200;
+		ctx.body = {success:true};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 //更新标签
-exports.updateTag = function *() {
-	const id = this.params.id;
-	if(this.request.body._id){
-	  delete this.request.body._id;
+exports.updateTag = async (ctx, next)=>{
+	const id = ctx.params.id;
+	if(ctx.request.body._id){
+	  delete ctx.request.body._id;
 	}
 	try{
-		const result = yield Tag.findByIdAndUpdate(id,this.request.body,{new:true});
-		this.status = 200;
-		this.body = {success:true,tag_id:result._id};
+		const result = await Tag.findByIdAndUpdate(id,ctx.request.body,{new:true});
+		ctx.status = 200;
+		ctx.body = {success:true,tag_id:result._id};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 //前台数据
-exports.getFrontTagList = function *(next) {
+exports.getFrontTagList = async (ctx, next)=>{
 	try{
-		const result = yield Tag.find({is_show:true},{},{sort:{'sort':-1}});
-		this.status = 200;
-		this.body = {data:result};
+		const result = await Tag.find({is_show:true},{},{sort:{'sort':-1}});
+		ctx.status = 200;
+		ctx.body = {data:result};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }

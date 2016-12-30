@@ -1,20 +1,10 @@
-"use strict";
+import { koaApp } from '../helpers/app';
+import {describe} from 'ava-spec';
 
-const app = require('../../server/app');
-const request = require('supertest')(app.listen());
-const should = require("should"); 
-
-describe('test/api/mobile.test.js',function () {
-	describe('get /mobile/getApps',function () {
-		it('should return success status 200',function (done) {
-			request.get('/mobile/getApps')
-			.expect(200)
-			.expect('Content-Type', /json/)
-			.end(function (err,res) {
-				if(err) return done(err);
-				res.body.success.should.be.true();
-				done();
-			});
-		});
-	})
-})
+describe('test/api/mobile.test.js', it => {
+  it('should return success status 200',async t => {
+		const res = await koaApp.get('/mobile/getApps')
+		t.is(res.status, 200);
+		t.true(res.body.success)
+  });
+});

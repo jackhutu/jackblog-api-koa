@@ -34,7 +34,7 @@ gulp.task('test:istanbul',['set-env','pre-test'],function () {
 
 		gulp.src(path.join(config.paths.mocha,'/**/*.test.js'),{read: false})
 				.pipe(mocha({
-					require: ['should'],
+					require: ['should','babel-register'],
 					timeout: 5000
 				}))
 				.pipe(istanbul.writeReports({
@@ -53,7 +53,7 @@ gulp.task('test:mocha',['set-env'],function () {
 	gulp.src(path.join(config.paths.mocha,'/**/*.test.js'),{read: false})
 			.pipe(mocha({
 				reporter: 'list',		//list,nyan,spec(default),progress
-				require: ['should'],
+				require: ['should','babel-register'],
 				timeout: 5000
 			}))
 			.once('error', function () {

@@ -13,9 +13,8 @@ router
     failureRedirect: '/',
     session: false
   }))
-  .get('/callback',function *(next) {
-    var ctx = this
-    yield passport.authenticate('weibo',{ session: false }, function *(err, user, redirectURL) {
+  .get('/callback', async (ctx, next) => {
+    await passport.authenticate('weibo',{ session: false }, function (err, user, redirectURL) {
       debug('weibo auth callback start');
       const redirectUrl = ctx.session.passport.redirectUrl || '/';
       const cookieDomain = config.session.cookie.domain || null;
@@ -32,7 +31,7 @@ router
       }
       ctx.cookies.set('snsmsg',JSON.stringify(snsmsg),{ signed: false,domain:cookieDomain,httpOnly:false,maxAge:30000});
       return ctx.redirect(redirectUrl);
-    }).call(this, next)
+    })(ctx)
   });
   
 module.exports = router;

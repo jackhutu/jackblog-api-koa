@@ -11,6 +11,8 @@
 [coveralls-image]: https://coveralls.io/repos/jackhutu/jackblog-api-koa/badge.svg?branch=master&service=github
 [coveralls-url]: https://coveralls.io/github/jackhutu/jackblog-api-koa?branch=master
 
+## 此为2.0版,基于koa2.x
+
 ## 简介
 Jackblog 是使用 Node.js + MongoDB + Redis + 其它客户端框架开发的个人博客系统,前后端分离,仿简书模板.    
 服务端有: [express 版](https://github.com/jackhutu/jackblog-api-express) , [koa 版](https://github.com/jackhutu/jackblog-api-koa)         
@@ -20,7 +22,7 @@ Jackblog 是使用 Node.js + MongoDB + Redis + 其它客户端框架开发的个
 
 ## 环境准备
 ```
-node.js 4.0+
+node.js 7.0+
 mognodb 3.0+
 redis 2.8+
 ```
@@ -46,25 +48,7 @@ $ cd jackblog-api-koa
 $ npm install
 $ gulp serve
 ```
-## [windows 用户注意事项](#windows)
-经亲测windows上开发没有任何问题, 测试环境如下:
-- windows 7 64位
-- mongodb 3.2.6
-- [redis 2.8.24](https://github.com/MSOpenTech/redis/releases)
-- Python 2.7
-- Microsoft Visual Studio C++ 2013
 
-1, node-gyp  
-一定要全局安装好node-gyp, ```npm i -g node-gyp```  
-这个库依赖python 2.7, vs2013. c++编译环境一定要配置好, 不然很多包都装不了.
-
-2, redis  
-redis for windows 只支持64位的操作系统  
-
-## 线上部署
-```
-$ pm2 start process.json
-```
 #### 使用docker容器部署所需的要环境变量  
 ```
 MONGO_PORT_27017_TCP_ADDR
@@ -91,7 +75,7 @@ INITDATA
 
 ## 测试
 ```
-$ gulp test
+$ npm test
 ```
 配合客户端测试的测试模式   
  

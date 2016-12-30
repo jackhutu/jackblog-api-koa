@@ -14,9 +14,9 @@ const tools = require('../../util/tools');
 const redis = require('../../util/redis');
 
 //添加博客
-exports.addArticle = function *() {
-	const content = this.request.body.content;
-	const title = this.request.body.title;
+exports.addArticle = async (ctx,next) => {
+	const content = ctx.request.body.content;
+	const title = ctx.request.body.title;
 	let error_msg;
 	if(!title){
 		error_msg = '标题不能为空.';
@@ -24,64 +24,64 @@ exports.addArticle = function *() {
 		error_msg = '内容不能为空.';
 	}
 	if(error_msg){
-		this.status = 422;
-		return this.body = {error_msg:error_msg};
+		ctx.status = 422;
+		return ctx.body = {error_msg:error_msg};
 	}
 	//将图片提取存入images,缩略图调用
-	this.request.body.images = tools.extractImage(content);
+	ctx.request.body.images = tools.extractImage(content);
 	try{
-		const result = yield Article.create(this.request.body);
-		this.status = 200;
-		this.body = {success: true,article_id:result._id};
+		const result = await Article.create(ctx.request.body);
+		ctx.status = 200;
+		ctx.body = {success: true,article_id:result._id};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 //后台获取博客列表
-exports.getArticleList = function *() {
-	let currentPage = (parseInt(this.query.currentPage) > 0)?parseInt(this.query.currentPage):1;
-	let itemsPerPage = (parseInt(this.query.itemsPerPage) > 0)?parseInt(this.query.itemsPerPage):10;
+exports.getArticleList = async (ctx,next)=>{
+	let currentPage = (parseInt(ctx.query.currentPage) > 0)?parseInt(ctx.query.currentPage):1;
+	let itemsPerPage = (parseInt(ctx.query.itemsPerPage) > 0)?parseInt(ctx.query.itemsPerPage):10;
 	let startRow = (currentPage - 1) * itemsPerPage;
 
-	let sortName = String(this.query.sortName) || "publish_time";
-	let sortOrder = this.query.sortOrder;
+	let sortName = String(ctx.query.sortName) || "publish_time";
+	let sortOrder = ctx.query.sortOrder;
 	if(sortOrder === 'false'){
 		sortName = "-" + sortName;
 	}
 	try{
-		const ArticleList = yield Article.find()
+		const ArticleList = await Article.find()
 														.skip(startRow)
 														.limit(itemsPerPage)
 														.sort(sortName)
 														.exec();
-		const count = yield Article.count();
-		this.status = 200;
-		this.body = { data: ArticleList, count:count };
+		const count = await Article.count();
+		ctx.status = 200;
+		ctx.body = { data: ArticleList, count:count };
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 
 //删除博客(连同这篇文章的评论一起删除.)
-exports.destroy = function *() {
-	const id = this.params.id;
+exports.destroy = async (ctx,next)=>{
+	const id = ctx.params.id;
 	try{
-		yield Article.findByIdAndRemove(id);
-		yield Comment.remove({aid:id});
-		this.status = 200;
-		this.body = {success: true};
+		await Article.findByIdAndRemove(id);
+		await Comment.remove({aid:id});
+		ctx.status = 200;
+		ctx.body = {success: true};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 //更新博客
-exports.updateArticle = function *() {
-	const id = this.params.id;
-	if(this.request.body._id){
-	  delete this.request.body._id;
+exports.updateArticle = async (ctx,next)=>{
+	const id = ctx.params.id;
+	if(ctx.request.body._id){
+	  delete ctx.request.body._id;
 	}
-	const content = this.request.body.content;
-	const title = this.request.body.title;
+	const content = ctx.request.body.content;
+	const title = ctx.request.body.title;
 	let error_msg;
 	if(!title){
 		error_msg = '标题不能为空.';
@@ -89,54 +89,54 @@ exports.updateArticle = function *() {
 		error_msg = '内容不能为空.';
 	}
 	if(error_msg){
-		this.status = 422;
-		return this.body = {error_msg:error_msg};
+		ctx.status = 422;
+		return ctx.body = {error_msg:error_msg};
 	}
 	//将图片提取存入images,缩略图调用
-	this.request.body.images = tools.extractImage(content);
-	this.request.body.updated = new Date();
-	if(this.request.body.isRePub){
-		this.request.body.publish_time = new Date();
+	ctx.request.body.images = tools.extractImage(content);
+	ctx.request.body.updated = new Date();
+	if(ctx.request.body.isRePub){
+		ctx.request.body.publish_time = new Date();
 	}
 	try{
-		const article = yield Article.findByIdAndUpdate(id,this.request.body,{new:true});
-		this.status = 200;
-		this.body = {success:true,article_id:article._id};
+		const article = await Article.findByIdAndUpdate(id,ctx.request.body,{new:true});
+		ctx.status = 200;
+		ctx.body = {success:true,article_id:article._id};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 //获取单篇博客
-exports.getArticle = function *() {
-	const id = this.params.id;
+exports.getArticle = async (ctx,next)=>{
+	const id = ctx.params.id;
 	try{
-		const article = yield Article.findOne({_id:id}).populate('tags').exec();
-		this.status = 200;
-		this.body = {data:article};
+		const article = await Article.findOne({_id:id}).populate('tags').exec();
+		ctx.status = 200;
+		ctx.body = {data:article};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 //上传图片
 /*
 var form = {
-  body: this.req.body,
-  files: this.req.files
+  body: ctx.req.body,
+  files: ctx.req.files
 }
  */
-exports.uploadImage = function *() {
-	let file = this.req.files.file;
+exports.uploadImage = async (ctx,next)=>{
+	let file = ctx.req.file;
 	if(!file){
-		this.status = 422;
-		return this.body = {error_msg:"缺少文件参数."};
+		ctx.status = 422;
+		return ctx.body = {error_msg:"缺少文件参数."};
 	}
 	const fileName =  new Date().getTime() + file.originalname;
 	try{
-		const result = yield qiniuHelper.upload(file.path,'blog/article/' + fileName);
-		this.status = 200;
-		this.body = {success:true,img_url:result.url};
+		const result = await qiniuHelper.upload(file.path,'blog/article/' + fileName);
+		ctx.status = 200;
+		ctx.body = {success:true,img_url:result.url};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 //将网络图片抓取到七牛
@@ -147,12 +147,12 @@ exports.uploadImage = function *() {
  * key: "blog/article/1439948192797e48eb2b310f91bda45273dbbfc1a8e6e.png"
  * url: "http://upload.jackhu.top/blog/article/1439948192797e48eb2b310f91bda45273dbbfc1a8e6e.png"
  */
-exports.fetchImage = function *() {
-	if(!this.request.body.url){
-		this.status = 422;
-		return this.body = {error_msg:"url地址不能为空."};
+exports.fetchImage = async (ctx,next)=>{
+	if(!ctx.request.body.url){
+		ctx.status = 422;
+		return ctx.body = {error_msg:"url地址不能为空."};
 	}
-	let urlLink = URL.parse(this.request.body.url);
+	let urlLink = URL.parse(ctx.request.body.url);
 	let fileName;
 	if(urlLink.pathname.indexOf('/') !== -1){
 		let links = urlLink.pathname.split('/');
@@ -162,90 +162,90 @@ exports.fetchImage = function *() {
 	};
 	fileName =  new Date().getTime() + fileName;
 	try{
-		const result = yield qiniuHelper.fetch(this.request.body.url,'blog/article/' + fileName)
-		this.status = 200;
-		this.body = {success:true,img_url:result.url};
+		const result = await qiniuHelper.fetch(ctx.request.body.url,'blog/article/' + fileName)
+		ctx.status = 200;
+		ctx.body = {success:true,img_url:result.url};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 //前台获取博客数量
-exports.getFrontArticleCount = function *(next) {
+exports.getFrontArticleCount = async (ctx,next)=>{
 	let condition = {status:{$gt:0}};
-	if(this.query.tagId){
+	if(ctx.query.tagId){
 		//tagId = new mongoose.Types.ObjectId(tagId);
-		const tagId = String(this.query.tagId);
+		const tagId = String(ctx.query.tagId);
 		condition = _.defaults(condition,{ tags: { $elemMatch: { $eq:tagId } } });
 	}
 	try{
-		const count = yield Article.count(condition);
-		this.status = 200;
-		this.body = {success:true,count:count};
+		const count = await Article.count(condition);
+		ctx.status = 200;
+		ctx.body = {success:true,count:count};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 //前台获取博客列表
-exports.getFrontArticleList = function *(next) {
-	let currentPage = (parseInt(this.query.currentPage) > 0)?parseInt(this.query.currentPage):1;
-	let itemsPerPage = (parseInt(this.query.itemsPerPage) > 0)?parseInt(this.query.itemsPerPage):10;
+exports.getFrontArticleList = async (ctx,next)=>{
+	let currentPage = (parseInt(ctx.query.currentPage) > 0)?parseInt(ctx.query.currentPage):1;
+	let itemsPerPage = (parseInt(ctx.query.itemsPerPage) > 0)?parseInt(ctx.query.itemsPerPage):10;
 	let startRow = (currentPage - 1) * itemsPerPage;
-	let sort = String(this.query.sortName) || "publish_time";
+	let sort = String(ctx.query.sortName) || "publish_time";
 	sort = "-" + sort;
 	let condition = {status:{$gt:0}};
-	if(this.query.tagId){
+	if(ctx.query.tagId){
 		//tagId = new mongoose.Types.ObjectId(tagId);
-		const tagId = String(this.query.tagId);
+		const tagId = String(ctx.query.tagId);
 		condition = _.defaults(condition,{ tags: { $elemMatch: { $eq:tagId } } });		
 	}
 	try{
-		const list = yield Article.find(condition)
+		const list = await Article.find(condition)
 			.select('title images visit_count comment_count like_count publish_time')
 			.skip(startRow)
 			.limit(itemsPerPage)
 			.sort(sort)
 			.exec();
-		this.status = 200;
-		this.body = {data:list};
+		ctx.status = 200;
+		ctx.body = {data:list};
 	}catch(err){
-		this.throw(err);
+		ctx.throw(err);
 	}
 }
 
 //前台获取文章
-exports.getFrontArticle = function *(next) {
-	const id = this.params.id;
+exports.getFrontArticle = async (ctx,next)=>{
+	const id = ctx.params.id;
 	const md = new MarkdownIt({
 		html:true //启用html标记转换
 	});
 	//每次获取之后,将阅读数加1
 	try{
-		let result = yield Article.findById(id,'-images');
+		let result = await Article.findById(id,'-images');
 		result.content = md.render(result.content);
 		result.visit_count++;
-		yield Article.findByIdAndUpdate(id,{$inc:{visit_count:1}});
-		this.status = 200;
-		this.body = {data:result.info}
+		await Article.findByIdAndUpdate(id,{$inc:{visit_count:1}});
+		ctx.status = 200;
+		ctx.body = {data:result.info}
 	}catch(err){
-		this.throw(err)
+		ctx.throw(err)
 	}
 }
 //前台获取上一篇和下一篇
-exports.getPrenext = function *(next) {
-	const id = this.params.id;
-	const sort = String(this.query.sortName) || "publish_time";
+exports.getPrenext = async (ctx,next)=>{
+	const id = ctx.params.id;
+	const sort = String(ctx.query.sortName) || "publish_time";
 	let preCondition,nextCondition;
 	preCondition = {status:{$gt:0}};
 	nextCondition = {status:{$gt:0}};
-	if(this.query.tagId){
+	if(ctx.query.tagId){
 		//tagId = new mongoose.Types.ObjectId(tagId);
-		const tagId = String(this.query.tagId);
+		const tagId = String(ctx.query.tagId);
 		preCondition =  _.defaults(preCondition,{ tags: { $elemMatch: { $eq:tagId } } });
 		nextCondition =  _.defaults(nextCondition,{ tags: { $elemMatch: { $eq:tagId } } });
 	}
 
 	try{
-		const article = yield Article.findById(id);
+		const article = await Article.findById(id);
 		//先获取文章,
 		if(sort === 'visit_count'){
 			preCondition = _.defaults(preCondition,{'_id':{$ne:id},'visit_count':{'$lte':article.visit_count}});
@@ -254,26 +254,26 @@ exports.getPrenext = function *(next) {
 			preCondition = _.defaults(preCondition,{'_id':{$ne:id},'publish_time':{'$lte':article.publish_time}});
 			nextCondition = _.defaults(nextCondition,{'_id':{$ne:id},'publish_time':{'$gte':article.publish_time}});
 		}
-		const preResult = yield Article.find(preCondition).select('title').limit(1).sort('-' + sort);
-		const nextResult = yield Article.find(nextCondition).select('title').limit(1).sort(sort);
+		const preResult = await Article.find(preCondition).select('title').limit(1).sort('-' + sort);
+		const nextResult = await Article.find(nextCondition).select('title').limit(1).sort(sort);
 		const prev = preResult[0] || {};
 		const next = nextResult[0] || {};
-		this.status = 200;
-		this.body = {data:{'next':next,'prev':prev}};
+		ctx.status = 200;
+		ctx.body = {data:{'next':next,'prev':prev}};
 	}catch(err){
-		this.throw(err)
+		ctx.throw(err)
 	}
 }
 //获取首页图片
-exports.getIndexImage = function *() {
+exports.getIndexImage = async (ctx,next)=>{
 	//从redis中获取
-	const imagesCount = yield redis.llen('indexImages');
+	const imagesCount = await redis.llen('indexImages');
 	if(!imagesCount || imagesCount < 1){
-		this.status = 200;
-		this.body = {success:true,img:config.defaultIndexImage};
+		ctx.status = 200;
+		ctx.body = {success:true,img:config.defaultIndexImage};
 		try{
 			if(config.qiniu.app_key !== '' && config.qiniu.app_secret !== ''){
-				const result = yield qiniuHelper.list('blog/index','',30);
+				const result = await qiniuHelper.list('blog/index','',30);
 				result.items.map(function (item) {
 					redis.lpush('indexImages',config.qiniu.domain + item.key + '-600x1500q80');
 				})
@@ -283,21 +283,21 @@ exports.getIndexImage = function *() {
 		}
 		return;
 	}else{
-		const images = yield redis.lrange('indexImages', 0, 30);
+		const images = await redis.lrange('indexImages', 0, 30);
 		const index = _.random(images.length - 1);
-		this.status = 200;
-		return this.body = {success:true,img:images[index]};
+		ctx.status = 200;
+		return ctx.body = {success:true,img:images[index]};
 	}
 }
 //用户喜欢
-exports.toggleLike = function *() {
-	const _this = this;
-	const aid = new mongoose.Types.ObjectId(_this.params.id);
-  const userId = _this.req.user._id;
+exports.toggleLike = async (ctx,next)=>{
+	const _ctx = ctx;
+	const aid = new mongoose.Types.ObjectId(_ctx.params.id);
+  const userId = _ctx.req.user._id;
   //如果已经喜欢过了,则从喜欢列表里,去掉文章ID,并减少文章喜欢数.否则添加到喜欢列表,并增加文章喜欢数.	
   //var isLink = _.indexOf(req.user.likeList.toString(), req.params.id);
-  const isLike = _.findIndex(_this.req.user.likeList, function(item) {
-    return item.toString() == _this.params.id;
+  const isLike = _.findIndex(_ctx.req.user.likeList, function(item) {
+    return item.toString() == _ctx.params.id;
   });
   let conditionOne,conditionTwo,liked;
   if(isLike !== -1){
@@ -311,11 +311,11 @@ exports.toggleLike = function *() {
   }
 
   try{
-  	const user = yield User.findByIdAndUpdate(userId,conditionOne);
-  	const article = yield Article.findByIdAndUpdate(aid,conditionTwo,{new:true});
-  	_this.status = 200;
-  	_this.body = {success:true,'count':article.like_count,'isLike':liked};
+  	const user = await User.findByIdAndUpdate(userId,conditionOne);
+  	const article = await Article.findByIdAndUpdate(aid,conditionTwo,{new:true});
+  	_ctx.status = 200;
+  	_ctx.body = {success:true,'count':article.like_count,'isLike':liked};
   }catch(err){
-  	_this.throw(err)
+  	_ctx.throw(err)
   }
 }

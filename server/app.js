@@ -2,25 +2,12 @@
 
 // 设置默认环境变量
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-const path = require('path');
-const fs = require('fs');
-const app = require('koa')();
-const mongoose = require('mongoose');
+const Koa = require('koa');
+const app = new Koa();
 const config = require('./config/env');
-const loggerMiddle = require('./util/logs');
+const logger = require('./util/logs');
 const errorHandleMiddle = require('./util/error');
-
-// 连接数据库.
-mongoose.connect(config.mongo.uri, config.mongo.options);
-const modelsPath = path.join(__dirname, 'model');
-fs.readdirSync(modelsPath).forEach(function (file) {
-	if (/(.*)\.(js$|coffee$)/.test(file)) {
-		require(modelsPath + '/' + file);
-	}
-});
-//mongoose promise 风格
-mongoose.Promise = require('bluebird');
-//mongoose.Promise = global.Promise;
+const mongoose = require('./connect');
 
 // 初始化数据
 if(config.seedDB) { 
@@ -30,7 +17,10 @@ if(config.seedDB) {
 
 //log记录
 //router use : this.logger.error('msg')
-app.use(loggerMiddle());
+app.use(async (ctx, next) => {
+	ctx.logger = logger
+	await next()
+});
 //错误处理中间件
 app.use(errorHandleMiddle());
 require('./config/koa')(app);
@@ -41,9 +31,5 @@ app.on('error',(err,ctx)=>{
 		console.error('error', err);
 	}
 })
-// Start server
-app.listen(config.port, function () {
-  console.log('Koa server listening on %d, in %s mode', config.port, app.env);
-});
 
 module.exports = app;

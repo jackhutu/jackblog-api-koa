@@ -2,11 +2,11 @@
 
 const config = require('../../config/env')
 
-exports.getApps = function *(next){
+exports.getApps = async (ctx)=>{
 	if(config.apps){
-		this.status = 200
-		this.body = {success:true,data:config.apps}
+		ctx.status = 200
+		ctx.body = {success:true,data:config.apps}
 	}else{
-		this.throw(404)
+		ctx.throw(404)
 	}
 }

@@ -1,0 +1,9 @@
+{
+  "verbose": false,
+  "watch": [
+    "server"
+  ],
+  "execMap": {
+    "js": "node --harmony"
+  }
+}

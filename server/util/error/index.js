@@ -1,13 +1,11 @@
-'use strict';
-
 const _ = require('lodash');
 
-function errorHandleMiddle() {
-	return function *(next) {
+const errorHandleMiddle = function () {
+	return async (ctx, next) => {
 	  try {
-	    yield next;
+	    await next();
 	  } catch (err) {
-	    this.status = err.status || 500;
+	    ctx.status = err.status || 500;
 	    let error_msg = err.message;
 	    if(err.errors && typeof(err.errors) === 'object'){
 	    	_.mapValues(err.errors, (item)=>{
@@ -16,8 +14,8 @@ function errorHandleMiddle() {
 	    		}
 	    	});
 	    }
-	    this.body = {error_msg: error_msg};
-	    this.app.emit('error', err, this);
+	    ctx.body = {error_msg: error_msg};
+	    ctx.app.emit('error', err, ctx);
 	  }
 	}
 }

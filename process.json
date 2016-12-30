@@ -9,6 +9,7 @@
       "pid_file"        : "./logs/jackblog-api-koa.pid",
       "ignoreWatch"     : ["[\\/\\\\]\\./", "node_modules"],
       "watch"           : "false",
+      "node_args"       : "--harmony",
       "exec_mode"       : "fork_mode", //cluster_mode
       "env": {
         "NODE_ENV"      : "production"

@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for server/config/env/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">server/config/env</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>8/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">93.48% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>43/46</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>8/8</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+var path = require('path');
+var _ = require('lodash');
+var fs = require('fs');
+&nbsp;
+var all = {
+  env: process.env.NODE_ENV,
+  root: path.normalize(__dirname + '/../../..'),
+  port: process.env.PORT || 9000,
+  //mongodb配置
+  mongo: {
+    options: {
+      user: process.env.MONGO_USERNAME || '', 
+      pass: process.env.MONGO_PASSWORD || ''
+    }
+  },
+  //redis 配置
+  redis: {
+    host: process.env.REDIS_PORT_6379_TCP_ADDR || '127.0.0.1',
+    port: process.env.REDIS_PORT_6379_TCP_PORT || 6379,
+    password: process.env.REDIS_PASSWORD || ''
+  },
+  //是否初始化数据
+  seedDB: process.env.INITDATA || false,
+  session:{
+    secrets: 'jackblog-secret',
+  },
+  //用户角色种类
+  userRoles: ['user', 'admin'],
+  //七牛配置
+  qiniu:{
+    app_key: process.env.QINIU_APP_KEY || '',
+    app_secret: process.env.QINIU_APP_SECRET || '',
+    domain: process.env.QINIU_APP_DOMAIN || '',          //七牛配置域名
+    bucket: process.env.QINIU_APP_BUCKET || ''           //七牛空间名称  
+  },
+  //默认首页图片.
+  defaultIndexImage: 'https://upload.jackhu.top/blog/index/default.jpg-600x1500q80',
+  //第三方登录配置
+  github:{
+    clientID: process.env.GITHUB_CLIENT_ID || 'clientID',
+    clientSecret: process.env.GITHUB_CLIENT_SECRET || 'clientSecret',
+    callbackURL: process.env.GITHUB_CALLBACK_URL || '',
+  },
+  weibo:{
+    clientID: process.env.WEIBO_CLIENT_ID || 'clientID',
+    clientSecret: process.env.WEIBO_CLIENT_SECRET || 'clientSecret',
+    callbackURL: process.env.WEIBO_CALLBACK_URL || '',
+  },
+  qq:{
+    clientID: process.env.QQ_CLIENT_ID || 'clientID',
+    clientSecret: process.env.QQ_CLIENT_SECRET || 'clientSecret',
+    callbackURL: process.env.QQ_CALLBACK_URL || '',
+  },
+  //移动APP列表
+  apps:[
+    {
+      name:'React Native',
+      gitUrl:'//github.com/jackhutu/jackblog-react-native-redux',
+      downloadUrl:{
+        android:'//a.app.qq.com/o/simple.jsp?pkgname=top.jackhu.reactnative',
+        ios:''
+      },
+      qrcode:'https://upload.jackhu.top/qrcode/jackblog-react-native-qrcode.png'
+    },
+    {
+      name:'Ionic 2.0',
+      gitUrl:'//github.com/jackhutu/jackblog-ionic2',
+      downloadUrl:{
+        android:'https://upload.jackhu.top/downloads/Jackblog-ionic2-1.0.0.apk',
+        ios:''
+      },
+      qrcode:'https://upload.jackhu.top/qrcode/jackblog-ionic2-v1.0.0.png'
+    }
+  ],
+  //开启第三方登录
+  snsLogins:['github','qq']
+};
+&nbsp;
+var config = _</span>.merge(all,require('./' + process.env.NODE_ENV + '.js') || <span class="branch-1 cbranch-no" title="branch not covered" >{});
+//加载私有配置
+<span class="missing-if-branch" title="else path not taken" >E</span>if (fs.existsSync(path.join(__dirname, 'private/index.js'))) {
+  config = _</span>.merge(config, require(path.join(__dirname, 'private/index.js')) || <span class="branch-1 cbranch-no" title="branch not covered" >{});  
+}
+module.exports = config;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 30 2016 16:55:20 GMT+0800 (CST)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

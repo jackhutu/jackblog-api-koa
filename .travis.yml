@@ -24,9 +24,6 @@ services:
 before_install:
   - $CXX --version
 
-before_script:
-  - npm install -g gulp
+script: npm test
 
-script: gulp test
-
-after_script: gulp coveralls
+after_script: npm run coverage

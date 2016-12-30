@@ -6,6 +6,7 @@ npm-debug.log*
 *.pid
 .tmp
 .sass-cache
+.nyc_output
 uploads
 
 ###############
