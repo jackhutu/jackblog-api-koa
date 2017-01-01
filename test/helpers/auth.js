@@ -25,11 +25,6 @@ exports.createTag = async (TagModel,cid,name,isShow) => {
   });
 };
 
-exports.cleanup = async (t)=> {
-  await User.remove();
-  t.end();
-};
-
 exports.getToken = async (email)=> {
   const res = await koaApp
               .post('/auth/local')

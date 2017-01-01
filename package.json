@@ -8,7 +8,7 @@
     "serve:test": "cross-env NODE_ENV=test nodemon ./bin/www",
     "pm2-start": "pm2 start --no-daemon process.json",
     "ava": "cross-env NODE_ENV=test ava test",
-    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text ava",
+    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text ava --serial",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
