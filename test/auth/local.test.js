@@ -11,7 +11,7 @@ const mockUsers = [
 let User, Logs;
 before(async t => {
   const mongoose = require('../../server/connect');
-  mongoose.Promise = require('bluebird');
+  //mongoose.Promise = require('bluebird');
   User = mongoose.model('User', UserSchema);
   Logs = mongoose.model('Logs', LogsSchema);
   await User.create({
