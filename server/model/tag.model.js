@@ -2,10 +2,10 @@
  * 标签表
  */
 
-'use strict';
+'use strict'
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 let TagSchema = new Schema({
 	name:{						//标签名称
@@ -28,7 +28,7 @@ let TagSchema = new Schema({
 		type:Number,
 		default:1
 	}
-});
+})
 
-exports.TagSchema = TagSchema;
-module.exports = mongoose.model('Tag',TagSchema);
+exports.TagSchema = TagSchema
+module.exports = mongoose.model('Tag',TagSchema)

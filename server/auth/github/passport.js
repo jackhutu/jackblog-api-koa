@@ -1,10 +1,9 @@
-'use strict';
+'use strict'
 
-const passport = require('koa-passport');
-const GithubStrategy = require('passport-github').Strategy;
-const tools = require('../../util/tools');
-const co = require("co");
-const debug = require('../../util/debug')('auth:github');
+const passport = require('koa-passport')
+const GithubStrategy = require('passport-github').Strategy
+const tools = require('../../util/tools')
+const debug = require('../../util/debug')('auth:github')
 
 exports.setup = function (User,config) {
   passport.use(new GithubStrategy({
@@ -14,14 +13,14 @@ exports.setup = function (User,config) {
       passReqToCallback: true
     },
     async (req, accessToken, refreshToken, profile, done) =>{
-      debug('GithubStrategy start');
-      var userId = req.session.passport.userId || null;
-      profile._json.token = accessToken;
+      debug('GithubStrategy start')
+      var userId = req.session.passport.userId || null
+      profile._json.token = accessToken
       //如果userId不存在.而新建用户,否而更新用户.
-      if(userId) return done(new Error('您已经是登录状态了'));
+      if(userId) return done(new Error('您已经是登录状态了'))
       try {
-        const checkUserId = await User.findOne({'github.id': profile.id});
-        if(checkUserId) return done(null, checkUserId);
+        const checkUserId = await User.findOne({'github.id': profile.id})
+        if(checkUserId) return done(null, checkUserId)
         let newUser = {
           nickname: profile.displayName || profile.username,
           avatar:profile._json.avatar_url || '',
@@ -29,16 +28,16 @@ exports.setup = function (User,config) {
           github: profile._json,
           status:1
         }
-        const checkUserName = await User.findOne({nickname:newUser.nickname});
+        const checkUserName = await User.findOne({nickname:newUser.nickname})
         if(checkUserName){
-          newUser.nickname = tools.randomString();
+          newUser.nickname = tools.randomString()
         }
-        const user = await new User(newUser).save();
-        return done(null, user);       
+        const user = await new User(newUser).save()
+        return done(null, user)       
       } catch (err) {
-        debug('GithubStrategy error');
-        return done(err);       
+        debug('GithubStrategy error')
+        return done(err)       
       }
     }
-  ));
-};
+  ))
+}

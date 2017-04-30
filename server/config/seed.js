@@ -4,19 +4,18 @@
  * email: admin@admin.com
  * password: admin
  */
-'use strict';
+'use strict'
 
-const mongoose = require('mongoose');
-const	User = mongoose.model('User');
-const	Article = mongoose.model('Article');
-const	TagCategory = mongoose.model('TagCategory');
-const	Tag = mongoose.model('Tag');
-const co = require('co');
-const logger = require('../util/logs').logger;
+const mongoose = require('mongoose')
+const	User = mongoose.model('User')
+const	Article = mongoose.model('Article')
+const	TagCategory = mongoose.model('TagCategory')
+const	Tag = mongoose.model('Tag')
+const logger = require('../util/logs').logger
 
 //初始化标签,文章,用户
 module.exports = async ()=>{
-	const userCount = await User.count();
+	const userCount = await User.count()
 	if(userCount === 0){
 		await User.create({
 			nickname:'admin',
@@ -42,15 +41,15 @@ module.exports = async ()=>{
 			role:'user',
 			password:'test',
 			status:0
-		});
+		})
 	}
-	const tagCount = await TagCategory.count();
+	const tagCount = await TagCategory.count()
 	if(tagCount === 0){
-		await Tag.remove();
+		await Tag.remove()
 		const languageCat = await TagCategory.create({
 					name:'language',
 					desc:'按编程语言分类'
-				});
+				})
 		await Tag.create({
 						name:'nodejs',
 						cid:languageCat._id,
@@ -63,8 +62,8 @@ module.exports = async ()=>{
 						name:'react',
 						cid:languageCat._id,
 						is_show:true
-					});
-		const systemCat = await TagCategory.create({ name:'system',desc:'按操作系统分类'});
+					})
+		const systemCat = await TagCategory.create({ name:'system',desc:'按操作系统分类'})
 		await Tag.create({
 						name:'linux',
 						cid:systemCat._id,
@@ -77,19 +76,19 @@ module.exports = async ()=>{
 						name:'android',
 						cid:systemCat._id,
 						is_show:true
-					});
-		const otherCat = await TagCategory.create({name:'other',desc:'其它分类'});
+					})
+		const otherCat = await TagCategory.create({name:'other',desc:'其它分类'})
 		await Tag.create({
 						name:'git',
 						cid:otherCat._id,
 						is_show:true
-					});
+					})
 
-		const tags = await Tag.find({});
-		await Article.remove();
+		const tags = await Tag.find({})
+		await Article.remove()
 		await tags.map(function (tag,index) {
-			var indexOne = parseInt(index) +1;
-			var indexTwo = parseInt(index) +2;
+			var indexOne = parseInt(index) +1
+			var indexTwo = parseInt(index) +2
 			Article.create({
 				title:'第' + (index + indexOne) + '篇文章',
 				content:'<p>我第' + (index + indexOne) + '次爱你.</p>',
@@ -100,7 +99,7 @@ module.exports = async ()=>{
 				content:'<p>我第' + (index + indexTwo) + '次爱你.</p>',
 				tags:[tag._id],
 				status:1
-			});
-		});
+			})
+		})
 	}	
 }

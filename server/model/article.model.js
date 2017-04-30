@@ -1,10 +1,10 @@
 /** 
  * 文章表
  */
-'use strict';
+'use strict'
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 let ArticleSchema = new Schema({
 	author_id:{
@@ -57,7 +57,7 @@ let ArticleSchema = new Schema({
     type: Date,
     default: Date.now
   }
-});
+})
 
 ArticleSchema
   .virtual('info')
@@ -71,8 +71,8 @@ ArticleSchema
       'comment_count':this.comment_count,
       'like_count':this.like_count,
       'publish_time': this.publish_time
-    };
-  });
+    }
+  })
 
-exports.CommentSchema = ArticleSchema;
-module.exports = mongoose.model('Article',ArticleSchema);
+exports.CommentSchema = ArticleSchema
+module.exports = mongoose.model('Article',ArticleSchema)

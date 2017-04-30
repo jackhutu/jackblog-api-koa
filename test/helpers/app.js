@@ -1,3 +1,3 @@
-import superkoa from 'superkoa';
+import superkoa from 'superkoa'
 
-exports.koaApp = superkoa('../../server/app');
+exports.koaApp = superkoa('../../server/app')

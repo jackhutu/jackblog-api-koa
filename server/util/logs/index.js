@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const path = require('path');
-const bunyan = require('bunyan');
-const config = require('../../config/env');
+const path = require('path')
+const bunyan = require('bunyan')
+const config = require('../../config/env')
 
 const logger = bunyan.createLogger({
 	name: 'jackblog',
@@ -31,6 +31,6 @@ const logger = bunyan.createLogger({
 			count: 7        // keep 7 back copies
 		}
 	]
-});
+})
 
-module.exports = logger;
+module.exports = logger

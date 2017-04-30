@@ -1,10 +1,10 @@
 /**
  * 评论表
  */
-'use strict';
+'use strict'
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 let CommentSchema = new Schema({
 	aid:{
@@ -34,7 +34,7 @@ let CommentSchema = new Schema({
     type: Date,
     default: Date.now
   }
-});
+})
 
-exports.CommentSchema = CommentSchema;
-module.exports = mongoose.model('Comment',CommentSchema);
+exports.CommentSchema = CommentSchema
+module.exports = mongoose.model('Comment',CommentSchema)

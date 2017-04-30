@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-var path = require('path');
-var _ = require('lodash');
-var fs = require('fs');
+var path = require('path')
+var _ = require('lodash')
+var fs = require('fs')
 
 var all = {
   env: process.env.NODE_ENV,
@@ -76,11 +76,11 @@ var all = {
   ],
   //开启第三方登录
   snsLogins:['github','qq']
-};
+}
 
-var config = _.merge(all,require('./' + process.env.NODE_ENV + '.js') || {});
+var config = _.merge(all,require('./' + process.env.NODE_ENV + '.js') || {})
 //加载私有配置
 if (fs.existsSync(path.join(__dirname, 'private/index.js'))) {
-  config = _.merge(config, require(path.join(__dirname, 'private/index.js')) || {});  
+  config = _.merge(config, require(path.join(__dirname, 'private/index.js')) || {})  
 }
-module.exports = config;
+module.exports = config

@@ -1,11 +1,11 @@
 /** 
  * 用户表
  */
-'use strict';
+'use strict'
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const crypto = require('crypto');
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+const crypto = require('crypto')
 
 let UserSchema = new Schema({
 	// username:{
@@ -79,7 +79,7 @@ let UserSchema = new Schema({
     type: Date,
     default: Date.now
   }
-});
+})
 
 /**
  * Virtuals
@@ -87,13 +87,13 @@ let UserSchema = new Schema({
 UserSchema
   .virtual('password')
   .set(function(password) {
-    this._password = password;
-    this.salt = this.makeSalt();
-    this.hashedPassword = this.encryptPassword(password);
+    this._password = password
+    this.salt = this.makeSalt()
+    this.hashedPassword = this.encryptPassword(password)
   })
   .get(function() {
-    return this._password;
-  });
+    return this._password
+  })
 
 
 UserSchema
@@ -106,8 +106,8 @@ UserSchema
       'avatar': this.avatar,
       'likes':this.likeList,
       'provider':this.provider
-    };
-  });
+    }
+  })
 
 UserSchema
   .virtual('providerInfo')
@@ -119,8 +119,8 @@ UserSchema
       'facebook': this.facebook,
       'google':this.google,
       'twitter':this.twitter
-    };
-  });
+    }
+  })
 
 // Non-sensitive info we'll be putting in the token
 UserSchema
@@ -129,48 +129,48 @@ UserSchema
     return {
       '_id': this._id,
       'role': this.role
-    };
-  });
+    }
+  })
 
 UserSchema
 	.path('nickname')
 	.validate(function(value, respond) {
-		var self = this;
+		var self = this
 		this.constructor.findOne({nickname: value}, function(err, user) {
-			if(err) throw err;
+			if(err) throw err
 			if(user) {
-				if(self.id === user.id) return respond(true);
-				return respond(false);
+				if(self.id === user.id) return respond(true)
+				return respond(false)
 			}
-			respond(true);
-		});
-	}, '这个呢称已经被使用.');
+			respond(true)
+		})
+	}, '这个呢称已经被使用.')
 /**
  * methods
  */
 UserSchema.methods = {
 	//检查用户权限
 	hasRole: function(role) {
-		var selfRoles = this.role;
-		return (selfRoles.indexOf('admin') !== -1 || selfRoles.indexOf(role) !== -1);
+		var selfRoles = this.role
+		return (selfRoles.indexOf('admin') !== -1 || selfRoles.indexOf(role) !== -1)
 	},
 	//验证用户密码
 	authenticate: function(plainText) {
-	  return this.encryptPassword(plainText) === this.hashedPassword;
+	  return this.encryptPassword(plainText) === this.hashedPassword
 	},
 	//生成盐
 	makeSalt: function() {
-	  return crypto.randomBytes(16).toString('base64');
+	  return crypto.randomBytes(16).toString('base64')
 	},
 	//生成密码
 	encryptPassword: function(password) {
-	  if (!password || !this.salt) return '';
-	  var salt = new Buffer(this.salt, 'base64');
-	  return crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha1').toString('base64');
+	  if (!password || !this.salt) return ''
+	  var salt = new Buffer(this.salt, 'base64')
+	  return crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha1').toString('base64')
 	}
 }
 
-UserSchema.set('toObject', { virtuals: true });
+UserSchema.set('toObject', { virtuals: true })
 
-exports.UserSchema = UserSchema;
-module.exports = mongoose.model('User', UserSchema);
+exports.UserSchema = UserSchema
+module.exports = mongoose.model('User', UserSchema)

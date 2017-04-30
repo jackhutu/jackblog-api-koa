@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // 测试环境配置
 // ===========================
@@ -12,4 +12,4 @@ module.exports = {
   },
   port:    process.env.PORT || 8080,
   seedDB: false
-};
+}

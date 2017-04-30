@@ -1,4 +1,4 @@
-import { koaApp } from './app';
+import { koaApp } from './app'
 
 exports.createUser = async (userModel,role,nickname,status) => {
   return await userModel.create({
@@ -7,28 +7,28 @@ exports.createUser = async (userModel,role,nickname,status) => {
     password:'test',
     role: role || 'admin',
     status: status || 1
-  });
-};
+  })
+}
 
 exports.createTagCat = async (TagCategoryModel,name) => {
   return await TagCategoryModel.create({
     name: name || '标签分类名' + new Date().getTime(),
     desc: '测试标签分类名'
-  });
-};
+  })
+}
 
 exports.createTag = async (TagModel,cid,name,isShow) => {
   return await TagModel.create({
     name: name || '标签名称' + new Date().getTime(),
     cid: cid,
     is_show: isShow || true
-  });
-};
+  })
+}
 
 exports.getToken = async (email)=> {
   const res = await koaApp
               .post('/auth/local')
               .send({ email: email, password:'test' })
               .redirects(false)
-  return res.body.token;
-};
+  return res.body.token
+}

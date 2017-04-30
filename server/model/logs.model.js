@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const mongoose = require('mongoose');
-const	Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const	Schema = mongoose.Schema
 
 let LogsSchema = new Schema({
 	uid: {
@@ -17,7 +17,7 @@ let LogsSchema = new Schema({
 		type: Date,
 		default: Date.now
 	}
-});
+})
 
-exports.LogsSchema = LogsSchema;
-module.exports = mongoose.model('Logs',LogsSchema);
+exports.LogsSchema = LogsSchema
+module.exports = mongoose.model('Logs',LogsSchema)

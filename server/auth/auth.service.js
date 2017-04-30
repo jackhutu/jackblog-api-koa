@@ -1,12 +1,12 @@
-'use strict';
+'use strict'
 
-const mongoose = require('mongoose');
-const passport = require('koa-passport');
-const config = require('../config/env');
-const jwt = require('koa-jwt');
-const jsonwebtoken = require('jsonwebtoken');
-const compose = require('koa-compose');
-const User = mongoose.model('User');
+const mongoose = require('mongoose')
+const passport = require('koa-passport')
+const config = require('../config/env')
+const jwt = require('koa-jwt')
+// const jsonwebtoken = require('jsonwebtoken')
+const compose = require('koa-compose')
+const User = mongoose.model('User')
 
 /** 
  * 验证token
@@ -15,9 +15,9 @@ function authToken() {
   return compose([
     async (ctx,next)=> {
       if(ctx.query && ctx.query.access_token){
-        ctx.headers.authorization = 'Bearer ' + ctx.query.access_token;
+        ctx.headers.authorization = 'Bearer ' + ctx.query.access_token
       }
-      await next();
+      await next()
     },
     jwt({ secret: config.session.secrets,passthrough: true })
   ])
@@ -29,14 +29,15 @@ function isAuthenticated() {
   return compose([
       authToken(),
       async (ctx,next) =>{
-        if(!ctx.state.user) ctx.throw('UnauthorizedError',401);
-        await next();
+        console.log(ctx)
+        if(!ctx.state.user) ctx.throw('UnauthorizedError',401)
+        await next()
       },
       async (ctx,next) =>{
-        var user = await User.findById(ctx.state.user._id);
-        if (!user) ctx.throw('UnauthorizedError',401);
-        ctx.req.user = user;
-        await next();
+        var user = await User.findById(ctx.state.user._id)
+        if (!user) ctx.throw('UnauthorizedError',401)
+        ctx.req.user = user
+        await next()
       }
     ])
 }
@@ -45,14 +46,14 @@ function isAuthenticated() {
  * 验证用户权限
  */
 function hasRole(roleRequired) {
-  if (!roleRequired) this.throw('Required role needs to be set');
+  if (!roleRequired) this.throw('Required role needs to be set')
   return compose([
       isAuthenticated(),
       async (ctx,next) =>{
         if (config.userRoles.indexOf(ctx.req.user.role) >= config.userRoles.indexOf(roleRequired)) {
-          await next();
+          await next()
         }else {
-          ctx.throw(403);
+          ctx.throw(403)
         }
       }
     ])
@@ -62,7 +63,7 @@ function hasRole(roleRequired) {
  * 生成token
  */
 function signToken(id) {
-  return jsonwebtoken.sign({ _id: id }, config.session.secrets, { expiresIn: '1y' });
+  return jwt.sign({ _id: id }, config.session.secrets, { expiresIn: '1y' })
 }
 
 /**
@@ -78,12 +79,12 @@ function snsPassport() {
         if(ctx.state.user){ 
           ctx.session.passport.userId = ctx.state.user._id 
         }
-        await next();
+        await next()
       }
     ])
 }
 
-exports.isAuthenticated = isAuthenticated;
-exports.hasRole = hasRole;
-exports.signToken = signToken;
-exports.snsPassport = snsPassport;
+exports.isAuthenticated = isAuthenticated
+exports.hasRole = hasRole
+exports.signToken = signToken
+exports.snsPassport = snsPassport
