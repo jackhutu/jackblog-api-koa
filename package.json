@@ -1,10 +1,10 @@
 {
   "name": "jackblog-api-koa",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "jackblog API koa版",
   "main": "server/app.js",
   "scripts": {
-    "serve": "cross-env NODE_ENV=development nodemon ./bin/www",
+    "dev": "cross-env NODE_ENV=development nodemon ./bin/www",
     "serve:test": "cross-env NODE_ENV=test nodemon ./bin/www",
     "pm2-start": "pm2 start --no-daemon process.json",
     "ava": "cross-env NODE_ENV=test ava test",
@@ -38,7 +38,7 @@
   },
   "babel": {
     "presets": [
-      "stage-3",
+      "stage-0",
       "es2015-node6"
     ],
     "plugins": [
@@ -56,7 +56,6 @@
     "koa-bodyparser": "^4.2.0",
     "koa-compose": "^4.0.0",
     "koa-compress": "^2.0.0",
-    "koa-convert": "^1.2.0",
     "koa-cors": "0.0.16",
     "koa-generic-session": "^1.11.4",
     "koa-json": "^2.0.2",
@@ -79,7 +78,11 @@
   "devDependencies": {
     "ava": "^0.19.1",
     "ava-spec": "^1.0.1",
+    "babel-plugin-espower": "^2.3.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015-node6": "^0.4.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.24.1",
     "coveralls": "^2.11.15",
     "cross-env": "^4.0.0",
     "nodemon": "^1.11.0",

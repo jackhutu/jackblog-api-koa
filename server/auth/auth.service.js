@@ -3,8 +3,8 @@
 const mongoose = require('mongoose')
 const passport = require('koa-passport')
 const config = require('../config/env')
-const jwt = require('koa-jwt')
-// const jsonwebtoken = require('jsonwebtoken')
+const koajwt = require('koa-jwt')
+const jwt = require('jsonwebtoken')
 const compose = require('koa-compose')
 const User = mongoose.model('User')
 
@@ -19,7 +19,7 @@ function authToken() {
       }
       await next()
     },
-    jwt({ secret: config.session.secrets,passthrough: true })
+    koajwt({ secret: config.session.secrets,passthrough: true })
   ])
 }
 /**
@@ -29,7 +29,6 @@ function isAuthenticated() {
   return compose([
       authToken(),
       async (ctx,next) =>{
-        console.log(ctx)
         if(!ctx.state.user) ctx.throw('UnauthorizedError',401)
         await next()
       },
@@ -63,7 +62,7 @@ function hasRole(roleRequired) {
  * 生成token
  */
 function signToken(id) {
-  return jwt.sign({ _id: id }, config.session.secrets, { expiresIn: '1y' })
+  return jwt.sign({ _id: id }, config.session.secrets, { expiresIn: config.session.maxAge })
 }
 
 /**

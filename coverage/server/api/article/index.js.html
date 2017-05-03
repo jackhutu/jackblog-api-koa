@@ -72,65 +72,65 @@
 27
 28</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
-const router = require("koa-router")();
-const controller = require('./article.controller');
-const auth = require('../../auth/auth.service');
-const multer = require('koa-multer');
-const upload = multer({ dest: './uploads/' });
+const router = require('koa-router')()
+const controller = require('./article.controller')
+const auth = require('../../auth/auth.service')
+const multer = require('koa-multer')
+const upload = multer({ dest: './uploads/' })
 &nbsp;
 //后台管理
-router.post('/addArticle',auth.hasRole('admin'),controller.addArticle);
-router.get('/getArticleList',auth.hasRole('admin'),controller.getArticleList);
-router.put('/:id/updateArticle', auth.hasRole('admin'), controller.updateArticle);
-router.delete('/:id', auth.hasRole('admin'), controller.destroy);
-router.get('/:id/getArticle', auth.hasRole('admin'), controller.getArticle);
-router.post('/uploadImage', auth.hasRole('admin'), upload.single('file'), controller.uploadImage);
-router.post('/fetchImage', auth.hasRole('admin'), controller.fetchImage);
+router.post('/addArticle',auth.hasRole('admin'),controller.addArticle)
+router.get('/getArticleList',auth.hasRole('admin'),controller.getArticleList)
+router.put('/:id/updateArticle', auth.hasRole('admin'), controller.updateArticle)
+router.delete('/:id', auth.hasRole('admin'), controller.destroy)
+router.get('/:id/getArticle', auth.hasRole('admin'), controller.getArticle)
+router.post('/uploadImage', auth.hasRole('admin'), upload.single('file'), controller.uploadImage)
+router.post('/fetchImage', auth.hasRole('admin'), controller.fetchImage)
 &nbsp;
 //前台获取
-router.get('/getFrontArticleList',controller.getFrontArticleList);
-router.get('/getFrontArticleCount',controller.getFrontArticleCount);
-router.get('/:id/getFrontArticle',controller.getFrontArticle);
+router.get('/getFrontArticleList',controller.getFrontArticleList)
+router.get('/getFrontArticleCount',controller.getFrontArticleCount)
+router.get('/:id/getFrontArticle',controller.getFrontArticle)
 //获取首页图片
-router.get('/getIndexImage',controller.getIndexImage);
+router.get('/getIndexImage',controller.getIndexImage)
 //用户喜欢文章
-router.put('/:id/toggleLike',auth.isAuthenticated(),controller.toggleLike);
+router.put('/:id/toggleLike',auth.isAuthenticated(),controller.toggleLike)
 //获取上一篇和下一篇
-router.get('/:id/getPrenext',controller.getPrenext);
-module.exports = router;</pre></td></tr>
+router.get('/:id/getPrenext',controller.getPrenext)
+module.exports = router</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Feb 26 2017 22:47:49 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 02 2017 17:17:38 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">91.67% </span>
+        <span class="strong">26.09% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>22/24</span>
+        <span class='fraction'>6/23</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>8/8</span>
+        <span class='fraction'>0/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">66.67% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>3/3</span>
+        <span class='fraction'>2/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">91.3% </span>
+        <span class="strong">22.73% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>21/23</span>
+        <span class='fraction'>5/22</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -80,90 +80,87 @@
 35
 36
 37
-38
-39</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+38</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
-const passport = require('koa-passport');
-const LocalStrategy = require('passport-local').Strategy;
-const co = require("co");
-const logger = require('../../util/logs');
+const passport = require('koa-passport')
+const LocalStrategy = require('passport-local').Strategy
+const logger = require('../../util/logs')
 &nbsp;
 exports.setup = function (User, config) {
   passport.use(new LocalStrategy({
       usernameField: 'email',
       passwordField: 'password' // this is the virtual field on the model
     },
-    async (email, password, done) =&gt; {
-      try {
-        const user = await User.findOne({email: email.toLowerCase()});
-        if (!user) {
-          logger.error('登录用户名错误',{'username':email});
-          return done(null, false, { error_msg: '用户名或密码错误.' });
+<span class="fstat-no" title="function not covered" >    async (</span>email, password, done) =&gt; {
+<span class="cstat-no" title="statement not covered" >      try {</span>
+        c</span>onst user = <span class="cstat-no" title="statement not covered" >await User.findOne({email: email.toLowerCase()})
+<span class="cstat-no" title="statement not covered" >        if (!user) {</span>
+<span class="cstat-no" title="statement not covered" >          logger.error('登录用户名错误',{'username':email})</span>
+<span class="cstat-no" title="statement not covered" >          return done(null, false, { error_msg: '用户名或密码错误.' })</span>
         }
-        if (!user.authenticate(password)) {
-          logger.error('登录密码错误',{'username':email});
-          return done(null, false, { error_msg: '用户名或密码错误.' });
+<span class="cstat-no" title="statement not covered" >        if (!user.authenticate(password)) {</span>
+<span class="cstat-no" title="statement not covered" >          logger.error('登录密码错误',{'username':email})</span>
+<span class="cstat-no" title="statement not covered" >          return done(null, false, { error_msg: '用户名或密码错误.' })</span>
         }
-        if(user.status === 2){
-          logger.error('被阻止登录', {'username':email});
-          return done(null, false, { error_msg: '用户被阻止登录.' });
+<span class="cstat-no" title="statement not covered" >        if(user.status === 2){</span>
+<span class="cstat-no" title="statement not covered" >          logger.error('被阻止登录', {'username':email})</span>
+<span class="cstat-no" title="statement not covered" >          return done(null, false, { error_msg: '用户被阻止登录.' })</span>
         }
-        if(user.status === 0){
-          logger.error('未验证用户登录',{'username':email});
-          return done(null, false, { error_msg: '用户未验证.' });
+<span class="cstat-no" title="statement not covered" >        if(user.status === 0){</span>
+<span class="cstat-no" title="statement not covered" >          logger.error('未验证用户登录',{'username':email})</span>
+<span class="cstat-no" title="statement not covered" >          return done(null, false, { error_msg: '用户未验证.' })</span>
         }
-        return done(null, user);        
+<span class="cstat-no" title="statement not covered" >        return done(null, user)        </span>
       } catch (err) {
-<span class="cstat-no" title="statement not covered" >        logger.debug('LocalStrategy error');</span>
-<span class="cstat-no" title="statement not covered" >        return done(err); </span>
+<span class="cstat-no" title="statement not covered" >        logger.debug('LocalStrategy error')</span>
+<span class="cstat-no" title="statement not covered" >        return done(err) </span>
       }
     }
-  ));
-};</pre></td></tr>
+  ))
+}</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Feb 26 2017 22:47:49 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 02 2017 17:17:38 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

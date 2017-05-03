@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">34.78% </span>
+        <span class="strong">31.82% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>8/23</span>
+        <span class='fraction'>7/22</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>2/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">35% </span>
+        <span class="strong">31.58% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>7/20</span>
+        <span class='fraction'>6/19</span>
       </div>
     </div>
   </div>
@@ -89,17 +89,15 @@
 44
 45
 46
-47
-48</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+47</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -137,13 +135,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
-const passport = require('koa-passport');
-const qqStrategy = require('passport-qq').Strategy;
-const tools = require('../../util/tools');
-const co = require("co");
-const debug = require('../../util/debug')('auth:qq');
+const passport = require('koa-passport')
+const qqStrategy = require('passport-qq').Strategy
+const tools = require('../../util/tools')
+const debug = require('../../util/debug')('auth:qq')
 &nbsp;
 exports.setup = function (User,config) {
   passport.use(new qqStrategy({
@@ -153,13 +150,13 @@ exports.setup = function (User,config) {
       passReqToCallback: true
     },
 <span class="fstat-no" title="function not covered" >    async (</span>req, accessToken, refreshToken, profile, done)=&gt; {
-      v</span>ar userId = <span class="cstat-no" title="statement not covered" >req.session.passport.userId || null;
-      //profile._json.token = accessToken;
+      v</span>ar userId = <span class="cstat-no" title="statement not covered" >req.session.passport.userId || null
+      //profile._json.token = accessToken
       //如果userId不存在.而新建用户,否而更新用户.
-<span class="cstat-no" title="statement not covered" >      if(userId) <span class="cstat-no" title="statement not covered" >r</span>eturn done(new Error('您已经是登录状态了'));</span>
+<span class="cstat-no" title="statement not covered" >      if(userId) <span class="cstat-no" title="statement not covered" >r</span>eturn done(new Error('您已经是登录状态了'))</span>
 <span class="cstat-no" title="statement not covered" >      try {</span>
-        c</span>onst checkUserId = <span class="cstat-no" title="statement not covered" >await User.findOne({'qq.id': profile.id});
-<span class="cstat-no" title="statement not covered" >        if(checkUserId) <span class="cstat-no" title="statement not covered" >r</span>eturn done(null, checkUserId);</span>
+        c</span>onst checkUserId = <span class="cstat-no" title="statement not covered" >await User.findOne({'qq.id': profile.id})
+<span class="cstat-no" title="statement not covered" >        if(checkUserId) <span class="cstat-no" title="statement not covered" >r</span>eturn done(null, checkUserId)</span>
         l</span>et newUser = <span class="cstat-no" title="statement not covered" >{
           nickname: profile._json.nickname || '',
           avatar:profile._json.figureurl_qq_2 || profile._json.figureurl_2 || '',
@@ -172,25 +169,25 @@ exports.setup = function (User,config) {
           },
           status:1
         }
-        c</span>onst checkUserName = <span class="cstat-no" title="statement not covered" >await User.findOne({nickname:newUser.nickname});
+        c</span>onst checkUserName = <span class="cstat-no" title="statement not covered" >await User.findOne({nickname:newUser.nickname})
 <span class="cstat-no" title="statement not covered" >        if(checkUserName){</span>
-<span class="cstat-no" title="statement not covered" >          newUser.nickname = tools.randomString();</span>
+<span class="cstat-no" title="statement not covered" >          newUser.nickname = tools.randomString()</span>
         }
-        c</span>onst user = <span class="cstat-no" title="statement not covered" >await new User(newUser).save();
-<span class="cstat-no" title="statement not covered" >        return done(null, user);       </span>
+        c</span>onst user = <span class="cstat-no" title="statement not covered" >await new User(newUser).save()
+<span class="cstat-no" title="statement not covered" >        return done(null, user)       </span>
       } catch (err) {
-<span class="cstat-no" title="statement not covered" >        debug('qqStrategy error');</span>
-<span class="cstat-no" title="statement not covered" >        return done(err);       </span>
+<span class="cstat-no" title="statement not covered" >        debug('qqStrategy error')</span>
+<span class="cstat-no" title="statement not covered" >        return done(err)       </span>
       }
     }
-  ));
-};</pre></td></tr>
+  ))
+}</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Feb 26 2017 22:47:49 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 02 2017 17:17:38 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
