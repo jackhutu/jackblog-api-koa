@@ -3,18 +3,16 @@
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
 const Logs = mongoose.model('Logs')
-const ccap = require('ccap')()
+const captcha = require('trek-captcha')
 const config = require('../../config/env')
 /**
  * 获取验证码
  */
 exports.getCaptcha = async (ctx,next)=>{
-	const ary = ccap.get()
-	const txt = ary[0]
-	const buf = ary[1]
-	ctx.session.captcha = txt
+	const { token, buffer } = await captcha({ size: 6 })
+	ctx.session.captcha = token
 	ctx.status = 200
-	ctx.body = buf
+	ctx.body = buffer
 }
 
 exports.getMe = async (ctx,next)=>{

@@ -1,6 +1,6 @@
 {
   "name": "jackblog-api-koa",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "jackblog API koa版",
   "main": "server/app.js",
   "scripts": {
@@ -49,7 +49,6 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "bunyan": "^1.8.10",
-    "ccap": "^0.6.10",
     "debug": "^2.6.6",
     "ioredis": "^2.4.3",
     "koa": "^2.2.0",
@@ -73,7 +72,8 @@
     "passport-local": "^1.0.0",
     "passport-qq": "0.0.3",
     "passport-weibo": "^0.1.2",
-    "qiniu": "^6.1.11"
+    "qiniu": "^6.1.11",
+    "trek-captcha": "^0.3.0"
   },
   "devDependencies": {
     "ava": "^0.19.1",

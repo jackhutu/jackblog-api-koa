@@ -13,6 +13,6 @@ module.exports = {
   },
   seedDB: true,
   session:{
-    cookie:  {maxAge: 60000 * 60 * 24 * 365}
+    cookie:  {maxAge: 60000}
   }
 }
