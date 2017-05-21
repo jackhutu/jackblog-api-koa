@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">21.43% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/14</span>
+        <span class='fraction'>20/20</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">91.67% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/8</span>
+        <span class='fraction'>11/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/2</span>
+        <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">21.43% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/14</span>
+        <span class='fraction'>20/20</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -65,43 +65,43 @@
 20
 21</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
 const mongoose = require('mongoose')
 const Logs = mongoose.model('Logs')
 &nbsp;
-exports.getLogsList = <span class="fstat-no" title="function not covered" >async (</span>ctx, next)=&gt;{
-	l</span>et currentPage = (<span class="cstat-no" title="statement not covered" >parseInt(ctx.query.currentPage) &gt; 0)?parseInt(ctx.query.currentPage):1
-	l</span>et itemsPerPage = (<span class="cstat-no" title="statement not covered" >parseInt(ctx.query.itemsPerPage) &gt; 0)?parseInt(ctx.query.itemsPerPage):10
-	l</span>et startRow = <span class="cstat-no" title="statement not covered" >(currentPage - 1) * itemsPerPage
+exports.getLogsList = async (ctx, next)=&gt;{
+	let currentPage = (parseInt(ctx.query.currentPage) &gt; 0)?parseInt(ctx.query.<span class="branch-1 cbranch-no" title="branch not covered" >currentPage):1</span>
+	let itemsPerPage = (parseInt(ctx.query.itemsPerPage) &gt; 0)?parseInt(ctx.query.itemsPerPage):10
+	let startRow = (currentPage - 1) * itemsPerPage
 &nbsp;
-	l</span>et sortName = <span class="cstat-no" title="statement not covered" >String(ctx.query.sortName) || 'created'
-	l</span>et sortOrder = <span class="cstat-no" title="statement not covered" >ctx.query.sortOrder
-<span class="cstat-no" title="statement not covered" >	if(sortOrder === 'false'){</span>
-<span class="cstat-no" title="statement not covered" >		sortName = '-' + sortName</span>
+	let sortName = String(ctx.query.sortName) || 'created'
+	let sortOrder = ctx.query.sortOrder
+	if(sortOrder === 'false'){
+		sortName = '-' + sortName
 	}
-	c</span>onst logsList = <span class="cstat-no" title="statement not covered" >await Logs.find({}).skip(startRow).limit(itemsPerPage).sort(sortName).exec()
-	c</span>onst count = <span class="cstat-no" title="statement not covered" >await Logs.count()
-<span class="cstat-no" title="statement not covered" >	ctx.status = 200</span>
-<span class="cstat-no" title="statement not covered" >	ctx.body = { data: logsList,count:count }</span>
+	const logsList = await Logs.find({}).skip(startRow).limit(itemsPerPage).sort(sortName).exec()
+	const count = await Logs.count()
+	ctx.status = 200
+	ctx.body = { data: logsList,count:count }
 }
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -109,7 +109,7 @@ exports.getLogsList = <span class="fstat-no" title="function not covered" >async
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 02 2017 17:17:38 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun May 21 2017 16:13:49 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

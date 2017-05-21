@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">15.79% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/19</span>
+        <span class='fraction'>19/19</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">80% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/10</span>
+        <span class='fraction'>8/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/3</span>
+        <span class='fraction'>3/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">15.79% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/19</span>
+        <span class='fraction'>19/19</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -75,63 +75,63 @@
 30
 31</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict"
 &nbsp;
 const _ = require('lodash')
 //生成随机字符串
-exports.randomString = <span class="fstat-no" title="function not covered" >function (</span>len) {
-<span class="cstat-no" title="statement not covered" >	len = len || 12</span>
-	c</span>onst $chars = <span class="cstat-no" title="statement not covered" >'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
-	c</span>onst maxPos = <span class="cstat-no" title="statement not covered" >$chars.length
-	l</span>et pwd = <span class="cstat-no" title="statement not covered" >''
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; len; i++) {</span>
-<span class="cstat-no" title="statement not covered" >    pwd += $chars.charAt(Math.floor(Math.random() * maxPos))</span>
+exports.randomString = function (len) {
+	len = len || 12
+	const $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+	const maxPos = $chars.length
+	let pwd = ''
+  for (let i = 0; i &lt; len; i++) {
+    pwd += $chars.charAt(Math.floor(Math.random() * maxPos))
   }
-　<span class="cstat-no" title="statement not covered" >return pwd</span>
+　return pwd
 }
 //从markdown中提取图片
-exports.extractImage = <span class="fstat-no" title="function not covered" >function (</span>content) {
-  l</span>et results = <span class="cstat-no" title="statement not covered" >[]
-	c</span>onst images = <span class="cstat-no" title="statement not covered" >content.match(/(!\[(.*?)\]\s?\([ \t]*()&lt;?(\S+?)&gt;?[ \t]*((['"])(.*?)\6[ \t]*)?\))/g)
-<span class="cstat-no" title="statement not covered" >	if(_.isArray(images) &amp;&amp; images.length &gt; 0){</span>
-<span class="cstat-no" title="statement not covered" >		for(let i = 0,j = images.length;i&lt;j;i++){</span>
-			v</span>ar url = <span class="cstat-no" title="statement not covered" >images[i].replace(/(!\[(.*?)\]\s?\([ \t]*()&lt;?(\S+?)&gt;?[ \t]*((['"])(.*?)\6[ \t]*)?\))/,<span class="fstat-no" title="function not covered" >function (</span>$1,m1,m2,m3,m4) {
-<span class="cstat-no" title="statement not covered" >				return m4 || ''</span>
+exports.extractImage = function (content) {
+  let results = []
+	const images = content.match(/(!\[(.*?)\]\s?\([ \t]*()&lt;?(\S+?)&gt;?[ \t]*((['"])(.*?)\6[ \t]*)?\))/g)
+	if(_.isArray(images) &amp;&amp; images.length &gt; 0){
+		for(let i = 0,j = images.length;i&lt;j;i++){
+			var url = images[i].replace(/(!\[(.*?)\]\s?\([ \t]*()&lt;?(\S+?)&gt;?[ \t]*((['"])(.*?)\6[ \t]*)?\))/,function ($1,m1,m2,m3,m4) {
+				return m4 || <span class="branch-1 cbranch-no" title="branch not covered" >''</span>
 			})
-<span class="cstat-no" title="statement not covered" >			if(url !== ''){</span>
-<span class="cstat-no" title="statement not covered" >				results.push({url:url})</span>
+			<span class="missing-if-branch" title="else path not taken" >E</span>if(url !== ''){
+				results.push({url:url})
 			}
 		}
 	}
-<span class="cstat-no" title="statement not covered" >	return results</span>
+	return results
 }
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -139,7 +139,7 @@ exports.extractImage = <span class="fstat-no" title="function not covered" >func
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 02 2017 17:17:38 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun May 21 2017 16:13:49 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

@@ -11,5 +11,8 @@ module.exports = {
     dropBufferSupport: true
   },
   port:    process.env.PORT || 8080,
-  seedDB: false
+  seedDB: false,
+  session:{
+    cookie:  {maxAge: 60000*5}
+  }  
 }

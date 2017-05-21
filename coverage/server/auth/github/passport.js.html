@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">29.17% </span>
+        <span class="strong">37.93% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>7/24</span>
+        <span class='fraction'>11/29</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">18.75% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/12</span>
+        <span class='fraction'>3/16</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">60% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/3</span>
+        <span class='fraction'>3/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">28.57% </span>
+        <span class="strong">40.74% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/21</span>
+        <span class='fraction'>11/27</span>
       </div>
     </div>
   </div>
@@ -87,19 +87,25 @@
 42
 43</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -121,19 +127,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
 const passport = require('koa-passport')
 const GithubStrategy = require('passport-github').Strategy
 const tools = require('../../util/tools')
 const debug = require('../../util/debug')('auth:github')
-&nbsp;
+<span class="branch-1 cbranch-no" title="branch not covered" ></span>
 exports.setup = function (User,config) {
   passport.use(new GithubStrategy({
       clientID: config.github.clientID,
@@ -141,41 +141,41 @@ exports.setup = function (User,config) {
       callbackURL: config.github.callback,
       passReqToCallback: true
     },
-<span class="fstat-no" title="function not covered" >    async (</span>req, accessToken, refreshToken, profile, done) =&gt;{
-<span class="cstat-no" title="statement not covered" >      debug('GithubStrategy start')</span>
-      v</span>ar userId = <span class="cstat-no" title="statement not covered" >req.session.passport.userId || null
-<span class="cstat-no" title="statement not covered" >      profile._json.token = accessToken</span>
+    async (req, accessToken, refreshToken, profile, done) =&gt;{
+      debug('GithubStrategy start')
+      var userId = req.session.passport.userId || null
+      profile._json.token = accessToken
       //如果userId不存在.而新建用户,否而更新用户.
-<span class="cstat-no" title="statement not covered" >      if(userId) <span class="cstat-no" title="statement not covered" >r</span>eturn done(new Error('您已经是登录状态了'))</span>
-<span class="cstat-no" title="statement not covered" >      try {</span>
-        c</span>onst checkUserId = <span class="cstat-no" title="statement not covered" >await User.findOne({'github.id': profile.id})
-<span class="cstat-no" title="statement not covered" >        if(checkUserId) <span class="cstat-no" title="statement not covered" >r</span>eturn done(null, checkUserId)</span>
-        l</span>et newUser = <span class="cstat-no" title="statement not covered" >{
+      if(userId) return done(new Error('您已经是登录状态了'))
+      try {<span class="fstat-no" title="function not covered" ></span>
+<span class="cstat-no" title="statement not covered" >        const checkUserId = await Use</span>r.findOne({'github.id': profile.id})
+        if(checkUse<span class="cstat-no" title="statement not covered" >rId) return done(null, checkUserId)</span>
+<span class="cstat-no" title="statement not covered" >        let newUser = {</span>
           nickname: profile.displayName || profile.username,
-          avatar:profile._json.avatar_url || '',
-          provider: 'github',
-          github: profile._json,
-          status:1
+<span class="cstat-no" title="statement not covered" >          avatar:p<span class="cstat-no" title="statement not covered" >rofile._json.avatar_url || '',</span></span>
+<span class="cstat-no" title="statement not covered" >          provider: 'github',</span>
+          github: profile._j<span class="cstat-no" title="statement not covered" >son,</span>
+<span class="cstat-no" title="statement not covered" >          status:1<span class="cstat-no" title="statement not covered" ></span></span>
+        }<span class="cstat-no" title="statement not covered" ></span>
+        const checkUserName = await User.findOne({nickname:newUser.nickname})
+        if(checkUserName){
+          newUser.nickname = tools.randomString()
         }
-        c</span>onst checkUserName = <span class="cstat-no" title="statement not covered" >await User.findOne({nickname:newUser.nickname})
-<span class="cstat-no" title="statement not covered" >        if(checkUserName){</span>
-<span class="cstat-no" title="statement not covered" >          newUser.nickname = tools.randomString()</span>
-        }
-        c</span>onst user = <span class="cstat-no" title="statement not covered" >await new User(newUser).save()
-<span class="cstat-no" title="statement not covered" >        return done(null, user)       </span>
-      } catch (err) {
+        const user = await new User(newUser).save()
+        return done(null, user)       
+      } catch (err) {<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >        debug('GithubStrategy error')</span>
-<span class="cstat-no" title="statement not covered" >        return done(err)       </span>
+        re<span class="cstat-no" title="statement not covered" >turn done(err)       </span>
       }
-    }
-  ))
+    }<span class="cstat-no" title="statement not covered" ></span>
+  ))<span class="cstat-no" title="statement not covered" ></span>
 }</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 02 2017 17:17:38 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun May 21 2017 16:13:49 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

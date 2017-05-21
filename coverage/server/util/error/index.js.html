@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">28.57% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>4/14</span>
+        <span class='fraction'>20/20</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">75% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/8</span>
+        <span class='fraction'>9/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/4</span>
+        <span class='fraction'>6/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">28.57% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>4/14</span>
+        <span class='fraction'>20/20</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -65,49 +65,49 @@
 20
 21
 22
-23</td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+23</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">93x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span></td><td class="text"><pre class="prettyprint lang-js">const _ = require('lodash')
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const _ = require('lodash')
 &nbsp;
 const errorHandleMiddle = function () {
-	return <span class="fstat-no" title="function not covered" >async (</span>ctx, next) =&gt; {
-<span class="cstat-no" title="statement not covered" >	  try {</span>
-<span class="cstat-no" title="statement not covered" >	    await next()</span>
-	  } catch (err) {
-<span class="cstat-no" title="statement not covered" >	    ctx.status = err.status || 500</span>
-	    l</span>et error_msg = <span class="cstat-no" title="statement not covered" >err.message
-<span class="cstat-no" title="statement not covered" >	    if(err.errors &amp;&amp; typeof(err.errors) === 'object'){</span>
-<span class="cstat-no" title="statement not covered" >	    	_.mapValues(err.errors, <span class="fstat-no" title="function not covered" >(</span>item)=&gt;{</span>
-<span class="cstat-no" title="statement not covered" >	    		if(item.message){</span>
-<span class="cstat-no" title="statement not covered" >	    			error_msg = item.message</span>
+	return async (ctx, next) =&gt; {
+	  try {
+	    await next()
+	  } catch (err) {<span class="branch-1 cbranch-no" title="branch not covered" ></span>
+	    ctx.status = err.status || 500
+	    let error_msg = err.message
+	    if(err.errors &amp;&amp; typeof(err.errors) === 'object'){
+	    	_.mapValues(err.errors, (item)=&gt;{
+	    		if(item.message){
+	    			error_msg = item.message
 	    		}
 	    	})
 	    }
-<span class="cstat-no" title="statement not covered" >	    ctx.body = {error_msg: error_msg}</span>
-<span class="cstat-no" title="statement not covered" >	    ctx.app.emit('error', err, ctx)</span>
+	    ctx.body = {error_msg: err<span class="branch-1 cbranch-no" title="branch not covered" >or_m</span>sg}
+	    ctx.app.emit('error', err, ctx)
 	  }
 	}
-}
+}<span class="missing-if-branch" title="else path not taken" >E</span>
 &nbsp;
 module.exports = errorHandleMiddle</pre></td></tr>
 </table></pre>
@@ -115,7 +115,7 @@ module.exports = errorHandleMiddle</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 02 2017 17:17:38 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun May 21 2017 16:13:49 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
