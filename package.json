@@ -50,7 +50,7 @@
     "bluebird": "^3.5.0",
     "bunyan": "^1.8.10",
     "debug": "^2.6.8",
-    "ioredis": "^2.4.3",
+    "ioredis": "^3.0.0",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
     "koa-compose": "^4.0.0",

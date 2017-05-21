@@ -22,7 +22,7 @@ Jackblog 是使用 Node.js + MongoDB + Redis + 其它客户端框架开发的个
 
 ## 环境准备
 ```
-node.js 7.8+
+node.js 7.6+
 mognodb 3.0+
 redis 2.8+
 ```
