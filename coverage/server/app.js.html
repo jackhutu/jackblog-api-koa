@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">88.46% </span>
+        <span class="strong">85% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>23/26</span>
+        <span class='fraction'>17/20</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60% </span>
+        <span class="strong">50% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>6/10</span>
+        <span class='fraction'>3/6</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>5/5</span>
+        <span class='fraction'>3/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">88.46% </span>
+        <span class="strong">85% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>23/26</span>
+        <span class='fraction'>17/20</span>
       </div>
     </div>
   </div>
@@ -80,13 +80,6 @@
 35</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -103,36 +96,43 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">117x</span>
 <span class="cline-any cline-yes">93x</span>
 <span class="cline-any cline-yes">93x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">93x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
 // 设置默认环境变量
-process.env.NODE_ENV = process.env.NODE_ENV || 'development'
+p</span>rocess.env.NODE_ENV = process.env.NODE_ENV || <span class="branch-1 cbranch-no" title="branch not covered" >'development'
 const Koa = require('koa')
 const app = new Koa()
 const config = require('./config/env')
 const logger = require('./util/logs')
-const errorHandleMiddle = require('./util/error')<span class="branch-1 cbranch-no" title="branch not covered" ></span>
+const errorHandleMiddle = require('./util/error')
 const mongoose = require('./connect')
-<span class="branch-1 cbranch-no" title="branch not covered" ></span>
+&nbsp;
 // 初始化数据
-if(config.seedDB) { 
-	const initData = require('./config/seed') 
-	initData()
+<span class="missing-if-branch" title="if path not taken" >I</span>if(config.seedDB) { 
+	c</span>onst initData = <span class="cstat-no" title="statement not covered" >require('./config/seed') 
+<span class="cstat-no" title="statement not covered" >	initData()</span>
 }
 &nbsp;
 //log记录
 //router use : this.logger.error('msg')
-<span class="missing-if-branch" title="if path not taken" >I</span>app.use(async (ctx, next) =&gt; {
-	ctx.logger = logg<span class="cstat-no" title="statement not covered" >er</span>
-<span class="cstat-no" title="statement not covered" >	await next()</span>
+app.use(async (ctx, next) =&gt; {
+	ctx.logger = logger
+	await next()
 })
 //错误处理中间件
 app.use(errorHandleMiddle())
@@ -140,8 +140,8 @@ require('./config/koa')(app)
 require('./routes')(app)
 //错误监听
 app.on('error',(err,ctx)=&gt;{
-	if (process.env.NODE_ENV != 'test') {
-		console.error('error', err)
+	<span class="missing-if-branch" title="if path not taken" >I</span>if (process.env.NODE_ENV != 'test') {
+<span class="cstat-no" title="statement not covered" >		console.error('error', err)</span>
 	}
 })
 &nbsp;
@@ -151,7 +151,7 @@ module.exports = app</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun May 21 2017 16:13:49 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun May 21 2017 16:47:16 GMT+0800 (CST)
 </div>
 </div>
 <script src="../prettify.js"></script>

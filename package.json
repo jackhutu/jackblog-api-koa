@@ -1,6 +1,6 @@
 {
   "name": "jackblog-api-koa",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "jackblog API koa版",
   "main": "server/app.js",
   "scripts": {
@@ -49,7 +49,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "bunyan": "^1.8.10",
-    "debug": "^2.6.6",
+    "debug": "^2.6.8",
     "ioredis": "^2.4.3",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
@@ -67,7 +67,7 @@
     "koa-router": "^7.1.1",
     "lodash": "^4.17.4",
     "markdown-it": "^8.3.1",
-    "mongoose": "^4.9.6",
+    "mongoose": "^4.10.0",
     "passport-github": "^1.1.0",
     "passport-local": "^1.0.0",
     "passport-qq": "0.0.3",
@@ -86,9 +86,9 @@
     "cross-env": "^4.0.0",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.0",
-    "nyc": "^10.0.0",
-    "sinon": "^2.1.0",
-    "superkoa": "^1.0.2",
+    "nyc": "^10.3.2",
+    "sinon": "^2.2.0",
+    "superkoa": "^1.0.3",
     "supertest": "^3.0.0"
   }
 }

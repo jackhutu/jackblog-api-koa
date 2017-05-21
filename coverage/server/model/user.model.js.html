@@ -306,14 +306,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -325,6 +331,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -337,6 +345,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -344,14 +354,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -383,18 +395,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/** 
  * 用户表
  */
@@ -485,11 +485,11 @@ UserSchema
   .virtual('password')
   .set(function(password) {
     this._password = password
-    thi<span class="fstat-no" title="function not covered" >s.</span>salt = this.makeSalt()
-<span class="cstat-no" title="statement not covered" >    this.hashedPassword </span>= this.encryptPassword(password)
+    this.salt = this.makeSalt()
+    this.hashedPassword = this.encryptPassword(password)
   })
-  .get(function() {
-    return this._password
+  .get(<span class="fstat-no" title="function not covered" >function() </span>{
+<span class="cstat-no" title="statement not covered" >    return this._password</span>
   })
 &nbsp;
 &nbsp;
@@ -512,8 +512,8 @@ UserSchema
     return {
       'qq': this.qq,
       'github': this.github,
-      'weibo': this.weibo,<span class="fstat-no" title="function not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      'facebook': this.facebook,</span>
+      'weibo': this.weibo,
+      'facebook': this.facebook,
       'google':this.google,
       'twitter':this.twitter
     }
@@ -522,8 +522,8 @@ UserSchema
 // Non-sensitive info we'll be putting in the token
 UserSchema
   .virtual('token')
-  <span class="missing-if-branch" title="if path not taken" >I</span>.get(func<span class="cstat-no" title="statement not covered" >tion() {</span>
-    return {
+  .get(<span class="fstat-no" title="function not covered" >function() </span>{
+<span class="cstat-no" title="statement not covered" >    return {</span>
       '_id': this._id,
       'role': this.role
     }
@@ -534,10 +534,10 @@ UserSchema
 	.validate(function(value, respond) {
 		var self = this
 		this.constructor.findOne({nickname: value}, function(err, user) {
-			if(err) throw err
-			if(user<span class="fstat-no" title="function not covered" >) </span>{
-				if(self.id ===<span class="cstat-no" title="statement not covered" > user.id) </span>return respond(true)
-<span class="cstat-no" title="statement not covered" >				return respond(false)</span>
+			<span class="missing-if-branch" title="if path not taken" >I</span>if(err) <span class="cstat-no" title="statement not covered" >throw err</span>
+			if(user) {
+				if(self.id === user.id) return respond(true)
+				return respond(false)
 			}
 			respond(true)
 		})
@@ -547,9 +547,9 @@ UserSchema
  */
 UserSchema.methods = {
 	//检查用户权限
-	hasRole: function(role) {
-		var selfRoles = this.role
-		<span class="missing-if-branch" title="if path not taken" >I</span>return (selfRoles.indexOf('ad<span class="cstat-no" title="statement not covered" >min') !== -</span>1 || selfRoles.indexOf(role) !== -1)
+	hasRole: <span class="fstat-no" title="function not covered" >function(</span>role) {
+		v</span>ar selfRoles = <span class="cstat-no" title="statement not covered" >this.role
+<span class="cstat-no" title="statement not covered" >		return (selfRoles.indexOf('admin') !== -1 || selfRoles.indexOf(role) !== -1)</span>
 	},
 	//验证用户密码
 	authenticate: function(plainText) {
@@ -561,7 +561,7 @@ UserSchema.methods = {
 	},
 	//生成密码
 	encryptPassword: function(password) {
-	  if (!password || !this.salt) return ''
+	  <span class="missing-if-branch" title="if path not taken" >I</span>if (!password || !this.salt) <span class="cstat-no" title="statement not covered" >return ''</span>
 	  var salt = new Buffer(this.salt, 'base64')
 	  return crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha1').toString('base64')
 	}
@@ -577,7 +577,7 @@ module.exports = mongoose.model('User', UserSchema)
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun May 21 2017 16:13:49 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun May 21 2017 16:47:16 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">46.67% </span>
+        <span class="strong">31.82% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>14/30</span>
+        <span class='fraction'>7/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">25% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>3/12</span>
+        <span class='fraction'>0/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">40% </span>
+        <span class="strong">33.33% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/5</span>
+        <span class='fraction'>1/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">46.67% </span>
+        <span class="strong">31.82% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>14/30</span>
+        <span class='fraction'>7/22</span>
       </div>
     </div>
   </div>
@@ -83,16 +83,6 @@
 38</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -100,24 +90,34 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
 const router = require('koa-router')()
 var passport = require('koa-passport')
@@ -127,40 +127,40 @@ const debug = require('../../util/debug')('auth:weibo')
 &nbsp;
 // weibo ---------------------------------
 &nbsp;
-router<span class="branch-1 cbranch-no" title="branch not covered" ></span>
+router
   .get('/', auth.snsPassport(), passport.authenticate('weibo', {
     failureRedirect: '/',
     session: false
   }))
-  .get('/callback', async (ctx, next) =&gt; {
-    await passport.authenticate('weibo',{ session: false }, function (err, user, redirectURL) {
-      debug('weibo auth callback start')
-      const redirectUrl = ctx.session.passport.redirectUrl || '/'
-      const cookieDomain = config.session.cookie.domain || null
-      let snsmsg = {}
-      if (err || !user) {
-        snsmsg.msg = 'login failure'
-        snsmsg.msgtype = 'error'
-      }else{<span class="fstat-no" title="function not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        snsmsg.msgtype = 'success'<span class="fstat-no" title="function not covered" ></span></span>
+  .get('/callback', <span class="fstat-no" title="function not covered" >async (</span>ctx, next) =&gt; {
+<span class="cstat-no" title="statement not covered" >    await passport.authenticate('weibo',{ session: false }, <span class="fstat-no" title="function not covered" >function (</span>err, user, redirectURL) {</span>
+<span class="cstat-no" title="statement not covered" >      debug('weibo auth callback start')</span>
+      c</span>onst redirectUrl = <span class="cstat-no" title="statement not covered" >ctx.session.passport.redirectUrl || '/'
+      c</span>onst cookieDomain = <span class="cstat-no" title="statement not covered" >config.session.cookie.domain || null
+      l</span>et snsmsg = <span class="cstat-no" title="statement not covered" >{}
+<span class="cstat-no" title="statement not covered" >      if (err || !user) {</span>
+<span class="cstat-no" title="statement not covered" >        snsmsg.msg = 'login failure'</span>
+<span class="cstat-no" title="statement not covered" >        snsmsg.msgtype = 'error'</span>
+      }else{
+<span class="cstat-no" title="statement not covered" >        snsmsg.msgtype = 'success'</span>
 <span class="cstat-no" title="statement not covered" >        snsmsg.msg  = 'login success!'</span>
-        const token = auth<span class="cstat-no" title="statement not covered" >.signToken(user._id)</span>
-        debug('set cookie t<span class="cstat-no" title="statement not covered" >oken')</span>
-        ctx.cookies<span class="cstat-no" title="statement not covered" >.se</span>t('token',token,{ signed: false,domain:cookieDomain,httpOnly:false })
-<span class="cstat-no" title="statement not covered" >      }</span>
-      ct<span class="cstat-no" title="statement not covered" >x.cookies.set('snsmsg',JSON.st</span>ringify(snsmsg),{ signed: false,domain:cookieDomain,httpOnly:false,maxAge:30000})
-      re<span class="cstat-no" title="statement not covered" >turn ctx.redirect(redirect</span>Url)
+        c</span>onst token = <span class="cstat-no" title="statement not covered" >auth.signToken(user._id)
+<span class="cstat-no" title="statement not covered" >        debug('set cookie token')</span>
+<span class="cstat-no" title="statement not covered" >        ctx.cookies.set('token',token,{ signed: false,domain:cookieDomain,httpOnly:false })</span>
+      }
+<span class="cstat-no" title="statement not covered" >      ctx.cookies.set('snsmsg',JSON.stringify(snsmsg),{ signed: false,domain:cookieDomain,httpOnly:false,maxAge:30000})</span>
+<span class="cstat-no" title="statement not covered" >      return ctx.redirect(redirectUrl)</span>
     })(ctx)
-  })<span class="cstat-no" title="statement not covered" ></span>
-  <span class="cstat-no" title="statement not covered" ></span>
-module.exports = route<span class="cstat-no" title="statement not covered" >r</span>
-<span class="cstat-no" title="statement not covered" ></span></pre></td></tr>
+  })
+  
+module.exports = router
+&nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun May 21 2017 16:13:49 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun May 21 2017 16:47:16 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
