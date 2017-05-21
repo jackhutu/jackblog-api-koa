@@ -1,6 +1,6 @@
 {
   "name": "jackblog-api-koa",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "jackblog API koa版",
   "main": "server/app.js",
   "scripts": {

@@ -11,7 +11,7 @@
 [coveralls-image]: https://coveralls.io/repos/jackhutu/jackblog-api-koa/badge.svg?branch=master&service=github
 [coveralls-url]: https://coveralls.io/github/jackhutu/jackblog-api-koa?branch=master
 
-## 此为2.1版,基于koa2.2.x
+## 此为2.2版,基于koa2.2.x
 
 ## 简介
 Jackblog 是使用 Node.js + MongoDB + Redis + 其它客户端框架开发的个人博客系统,前后端分离,仿简书模板.    
