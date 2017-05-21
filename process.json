@@ -2,7 +2,7 @@
 	"apps" : [
     {
       "name"            : "jackblog-api-koa",
-      "script"          : "./server/app.js",
+      "script"          : "./bin/www.js",
       "log_date_format" : "YYYY-MM-DD HH:mm Z",
       "out_file"        : "./logs/pm2-out.log",
       "error_file"      : "./logs/pm2-err.log",
