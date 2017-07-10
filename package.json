@@ -76,7 +76,7 @@
     "trek-captcha": "^0.3.0"
   },
   "devDependencies": {
-    "ava": "^0.19.1",
+    "ava": "^0.20.0",
     "ava-spec": "^1.0.1",
     "babel-plugin-espower": "^2.3.2",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -87,7 +87,7 @@
     "cross-env": "^5.0.0",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.0",
-    "nyc": "^10.3.2",
+    "nyc": "^11.0.3",
     "sinon": "^2.3.6",
     "superkoa": "^1.0.3",
     "supertest": "^3.0.0"
