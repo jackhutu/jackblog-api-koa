@@ -1,6 +1,7 @@
 'use strict'
 
 const _ = require('lodash')
+const xss = require('xss')
 const mongoose = require('mongoose')
 const Comment = mongoose.model('Comment')
 const Blog = mongoose.model('Article')
@@ -8,7 +9,7 @@ const Blog = mongoose.model('Article')
 //添加新的评论.
 exports.addNewComment = async (ctx,next) => {
 	const aid = ctx.request.body.aid
-	const content = ctx.request.body.content
+	let content = ctx.request.body.content
 	const userId = ctx.req.user._id
 	let error_msg
 	if(!aid){
@@ -20,6 +21,8 @@ exports.addNewComment = async (ctx,next) => {
 		ctx.status = 422
 		return ctx.body = {error_msg:error_msg}
 	}
+	content = xss(content)
+
 	try{
 		let result = await Comment.create({ aid:aid,content:content,user_id:userId })
 		let comment = result.toObject()
@@ -41,13 +44,13 @@ exports.getFrontCommentList = async (ctx,next)=>{
 	const aid = ctx.params.id
 	try{
 		const commentList = await Comment.find({aid:aid,status:{$eq:1}})
-																.sort('created')
-																.populate({
-																	path: 'user_id',
-																	select: 'nickname avatar'
-																})
-																.exec()
-
+			.sort('created')
+			.populate({
+				path: 'user_id',
+				select: 'nickname avatar',
+				match: { nickname: { $exists: true } },
+			})
+			.exec()
 		ctx.status = 200
 		ctx.body = {data:commentList}
 	}catch(err){
@@ -61,6 +64,7 @@ exports.addNewReply = async (ctx,next)=>{
 		ctx.status = 422
 		return ctx.body = {error_msg:'回复内容不能为空'}
 	}
+	ctx.request.body.content = xss(ctx.request.body.content)
 	let reply = ctx.request.body
   reply.user_info = {
   	id:ctx.req.user._id,

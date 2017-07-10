@@ -1,6 +1,6 @@
 {
   "name": "jackblog-api-koa",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "jackblog API koa版",
   "main": "server/app.js",
   "scripts": {
@@ -73,7 +73,8 @@
     "passport-qq": "0.0.3",
     "passport-weibo": "^0.1.2",
     "qiniu": "6.1.13",
-    "trek-captcha": "^0.3.0"
+    "trek-captcha": "^0.3.0",
+    "xss": "^0.3.3"
   },
   "devDependencies": {
     "ava": "^0.20.0",
