@@ -59,7 +59,7 @@
     "koa-generic-session": "^1.11.4",
     "koa-json": "^2.0.2",
     "koa-jwt": "^3.2.1",
-    "koa-logger": "^3.0.0",
+    "koa-logger": "^3.0.1",
     "koa-multer": "^1.0.0",
     "koa-passport": "^3.0.0-rc.2",
     "koa-redis": "^3.0.0",
@@ -67,7 +67,7 @@
     "koa-router": "^7.1.1",
     "lodash": "^4.17.4",
     "markdown-it": "^8.3.1",
-    "mongoose": "^4.10.0",
+    "mongoose": "^4.11.1",
     "passport-github": "^1.1.0",
     "passport-local": "^1.0.0",
     "passport-qq": "0.0.3",
@@ -88,7 +88,7 @@
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.0",
     "nyc": "^10.3.2",
-    "sinon": "^2.2.0",
+    "sinon": "^2.3.6",
     "superkoa": "^1.0.3",
     "supertest": "^3.0.0"
   }
