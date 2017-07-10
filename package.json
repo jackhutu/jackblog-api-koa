@@ -72,7 +72,7 @@
     "passport-local": "^1.0.0",
     "passport-qq": "0.0.3",
     "passport-weibo": "^0.1.2",
-    "qiniu": "^6.1.11",
+    "qiniu": "6.1.13",
     "trek-captcha": "^0.3.0"
   },
   "devDependencies": {
