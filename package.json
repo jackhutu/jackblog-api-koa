@@ -1,6 +1,6 @@
 {
   "name": "jackblog-api-koa",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "jackblog API koa版",
   "main": "server/app.js",
   "scripts": {
@@ -89,7 +89,7 @@
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.0",
     "nyc": "^11.0.3",
-    "sinon": "^2.3.6",
+    "sinon": "^2.3.7",
     "superkoa": "^1.0.3",
     "supertest": "^3.0.0"
   }
