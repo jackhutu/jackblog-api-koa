@@ -1,6 +1,6 @@
 {
   "name": "jackblog-api-koa",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "jackblog API koa版",
   "main": "server/app.js",
   "scripts": {
@@ -51,12 +51,12 @@
     "bunyan": "^1.8.10",
     "debug": "^2.6.8",
     "ioredis": "^3.0.0",
+    "kcors": "^2.2.1",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
     "koa-compose": "^4.0.0",
     "koa-compress": "^2.0.0",
-    "koa-cors": "0.0.16",
-    "koa-generic-session": "^1.11.4",
+    "koa-generic-session": "^2.0.0",
     "koa-json": "^2.0.2",
     "koa-jwt": "^3.2.1",
     "koa-logger": "^3.0.1",

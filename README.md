@@ -77,8 +77,7 @@ INITDATA
 ```
 $ npm test
 ```
-配合客户端测试的测试模式   
- 
+配合客户端测试的测试模式
 ```
 $ npm run serve:test
 ```

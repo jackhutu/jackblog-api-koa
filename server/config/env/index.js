@@ -11,6 +11,7 @@ var all = {
   //mongodb配置
   mongo: {
     options: {
+      useMongoClient: true,
       user: process.env.MONGO_USERNAME || '', 
       pass: process.env.MONGO_PASSWORD || ''
     }
