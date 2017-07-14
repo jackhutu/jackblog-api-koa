@@ -12,8 +12,8 @@ var all = {
   mongo: {
     options: {
       useMongoClient: true,
-      user: process.env.MONGO_USERNAME || '', 
-      pass: process.env.MONGO_PASSWORD || ''
+      // user: process.env.MONGO_USERNAME || '', 
+      // pass: process.env.MONGO_PASSWORD || ''
     }
   },
   //redis 配置

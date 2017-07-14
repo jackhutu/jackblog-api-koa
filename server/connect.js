@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const config = require('./config/env')
 
 // 连接数据库.
+console.log(config.mongo.uri)
 mongoose.connect(config.mongo.uri, config.mongo.options)
 const modelsPath = path.join(__dirname, 'model')
 fs.readdirSync(modelsPath).forEach(function (file) {

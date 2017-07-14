@@ -4,7 +4,7 @@
 // ===========================
 module.exports = {
   mongo: {
-    uri: 'mongodb://localhost/jackblog-test'
+    uri: `mongodb://${encodeURIComponent(process.env.MONGO_USERNAME || '')}:${encodeURIComponent(process.env.MONGO_PASSWORD || '')}@localhost:27017/jackblog-test`
   },
   redis: {
     db: 2,
