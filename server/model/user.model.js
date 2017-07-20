@@ -8,13 +8,14 @@ const Schema = mongoose.Schema
 const crypto = require('crypto')
 
 let UserSchema = new Schema({
-	// username:{
-	// 	type:String,
-	// },
-	nickname:String,
+	nickname:{
+		type:String,
+		unique: true,
+	},
 	email: {
 		type: String,
-		lowercase: true
+		lowercase: true,
+		unique: true,
 	},
 	provider: {
 		type:String,
@@ -134,17 +135,35 @@ UserSchema
 
 UserSchema
 	.path('nickname')
-	.validate(function(value, respond) {
-		var self = this
-		this.constructor.findOne({nickname: value}, function(err, user) {
-			if(err) throw err
-			if(user) {
-				if(self.id === user.id) return respond(true)
-				return respond(false)
-			}
-			respond(true)
-		})
-	}, '这个呢称已经被使用.')
+	.validate({
+		isAsync: true,
+		validator: function(v, cb) {
+			const self = this
+			self.constructor.findOne({ nickname: v }, function(err, user) {
+				if (user && self.id !== user.id) {
+					cb(false)
+				}
+				cb(true)
+			})
+		},
+		message: '这个呢称已经被使用!',
+	})
+		
+UserSchema
+	.path('email')
+	.validate({
+		isAsync: true,
+		validator: function(v, cb) {
+			const self = this
+			self.constructor.findOne({ email: v }, function(err, user) {
+				if (user && self.id !== user.id) {
+					cb(false)
+				}
+				cb(true)
+			})
+		},
+		message: '这个email已经被使用!',
+	})
 /**
  * methods
  */
