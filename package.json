@@ -66,7 +66,7 @@
     "koa-response-time": "^2.0.0",
     "koa-router": "^7.1.1",
     "lodash": "^4.17.4",
-    "markdown-it": "^8.3.1",
+    "markdown-it": "^8.3.2",
     "mongoose": "^4.11.5",
     "passport-github": "^1.1.0",
     "passport-local": "^1.0.0",
@@ -85,11 +85,11 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.24.1",
     "coveralls": "^2.11.15",
-    "cross-env": "^5.0.2",
+    "cross-env": "^5.0.3",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.0",
     "nyc": "^11.1.0",
-    "sinon": "^2.4.1",
+    "sinon": "^3.0.0",
     "superkoa": "^1.0.3",
     "supertest": "^3.0.0"
   }
