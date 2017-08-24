@@ -14,7 +14,7 @@ const qiniuHelper = require('../../server/util/qiniu')
 let User, Logs, Article, token, mockArticleId, mockAdminId, mockTagId = '55e127401cfddd2c4be93f6b', mockTagIds = ['55e127401cfddd2c4be93f6b']
 before(async t => {
   const mongoose = require('../../server/connect')
-  mongoose.Promise = require('bluebird')
+  mongoose.Promise = global.Promise
   User = mongoose.model('User', UserSchema)
   Logs = mongoose.model('Logs', LogsSchema)
   Article = mongoose.model('Article', ArticleSchema)

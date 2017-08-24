@@ -273,7 +273,7 @@ exports.getIndexImage = async (ctx,next)=>{
 		ctx.body = {success:true,img:config.defaultIndexImage}
 		try{
 			if(config.qiniu.app_key !== '' && config.qiniu.app_secret !== ''){
-				const result = await qiniuHelper.list('blog/index','',30)
+				const result = await qiniuHelper.list({prefix:'blog/index', marker:'',limit:30})
 				result.items.map(function (item) {
 					redis.lpush('indexImages',config.qiniu.domain + item.key + '-600x1500q80')
 				})

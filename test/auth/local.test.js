@@ -11,28 +11,30 @@ const mockUsers = [
 let User, Logs
 before(async t => {
   const mongoose = require('../../server/connect')
-  mongoose.Promise = require('bluebird')
+  mongoose.Promise = global.Promise
   User = mongoose.model('User', UserSchema)
   Logs = mongoose.model('Logs', LogsSchema)
   await User.create({
-    nickname: '测试' + new Date().getTime(),
-    email: mockUsers[0],
-    password: 'test',
-    role: 'user',
-    status: 1
-  }, {
-      nickname: '测试' + new Date().getTime(),
-      email: mockUsers[1],
-      password: 'test',
-      role: 'user',
-      status: 0
-    }, {
-      nickname: '测试' + new Date().getTime(),
-      email: mockUsers[2],
-      password: 'test',
-      role: 'user',
-      status: 2
-    })
+          nickname: '测试' + new Date().getTime(),
+          email: mockUsers[0],
+          password: 'test',
+          role: 'user',
+          status: 1
+        }) 
+  await User.create({
+          nickname: '测试' + new Date().getTime(),
+          email: mockUsers[1],
+          password: 'test',
+          role: 'user',
+          status: 0
+        }) 
+  await User.create({
+          nickname: '测试' + new Date().getTime(),
+          email: mockUsers[2],
+          password: 'test',
+          role: 'user',
+          status: 2
+        })
 })
 
 after(async () => {

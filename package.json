@@ -5,6 +5,7 @@
   "main": "server/app.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon ./bin/www",
+    "debug": "cross-env NODE_ENV=development nodemon --inspect ./bin/www",
     "serve:test": "cross-env NODE_ENV=test nodemon ./bin/www",
     "pm2-start": "pm2 start --no-daemon process.json",
     "ava": "cross-env NODE_ENV=test ava test",
@@ -47,7 +48,6 @@
     ]
   },
   "dependencies": {
-    "bluebird": "^3.5.0",
     "bunyan": "^1.8.12",
     "debug": "^3.0.0",
     "ioredis": "^3.1.4",
@@ -72,7 +72,7 @@
     "passport-local": "^1.0.0",
     "passport-qq": "0.0.3",
     "passport-weibo": "^0.1.2",
-    "qiniu": "6.1.13",
+    "qiniu": "^7.0.6",
     "trek-captcha": "^0.3.0",
     "xss": "^0.3.3"
   },

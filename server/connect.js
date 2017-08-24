@@ -11,7 +11,7 @@ fs.readdirSync(modelsPath).forEach(function (file) {
 		require(modelsPath + '/' + file)
 	}
 })
-//mongoose promise 风格 [mongoose.Promise = global.Promise]
-mongoose.Promise = require('bluebird')
+//mongoose promise 风格 [mongoose.Promise = require('bluebird')]
+mongoose.Promise = global.Promise
 
 module.exports = mongoose

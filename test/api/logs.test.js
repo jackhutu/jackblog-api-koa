@@ -8,7 +8,7 @@ import config from '../../server/config/env'
 let User, Logs, token, mockLogId, mockUserId
 before(async t => {
   const mongoose = require('../../server/connect')
-  mongoose.Promise = require('bluebird')
+  mongoose.Promise = global.Promise
   User = mongoose.model('User', UserSchema)
   Logs = mongoose.model('Logs', LogsSchema)
   const user = await createUser(User, 'admin')
