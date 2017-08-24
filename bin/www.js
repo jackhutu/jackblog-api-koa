@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 const app = require('../server/app')
 const config = require('../server/config/env')
 
